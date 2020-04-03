@@ -22,10 +22,10 @@ public class Panel extends JPanel {
 		Image imgPosition = null;
 
 		try {
-		    imgPlayer = ImageIO.read(new File("C:\\Users\\Arnaud\\eclipse-workspace\\Sokoban\\data\\texture\\player.png"));
-		    imgWall = ImageIO.read(new File("C:\\Users\\Arnaud\\eclipse-workspace\\Sokoban\\data\\texture\\wall.png"));
-		    imgBox = ImageIO.read(new File("C:\\Users\\Arnaud\\eclipse-workspace\\Sokoban\\data\\texture\\box.jpg"));
-		    imgPosition = ImageIO.read(new File("C:\\Users\\Arnaud\\eclipse-workspace\\Sokoban\\data\\texture\\position.png"));
+		    imgPlayer = ImageIO.read(new File("data\\texture\\player.png"));
+		    imgWall = ImageIO.read(new File("data\\texture\\wall.png"));
+		    imgBox = ImageIO.read(new File("data\\texture\\box.jpg"));
+		    imgPosition = ImageIO.read(new File("data\\texture\\position.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

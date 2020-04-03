@@ -6,7 +6,7 @@ public class Level {
 	public char tabLevel[][] = new char[25][25];
 	
 	public void initLevel() {
-		File file = new File("C:\\Users\\Arnaud\\eclipse-workspace\\Sokoban\\data\\levels\\level-1.txt");
+		File file = new File("data\\levels\\level-1.txt");
 		Scanner sc = null;
 		try {
 			sc = new Scanner(file);
