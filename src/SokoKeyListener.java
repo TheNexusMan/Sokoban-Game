@@ -18,23 +18,19 @@ public class SokoKeyListener implements KeyListener {
 		
 		switch(e.getKeyCode()) {
 			case KeyEvent.VK_LEFT:
-				panel.game.character.moveLeft();
-				panel.repaint();
+				if(panel.game.move("left")) panel.repaint(); //if the character can move, we repaint the panel
 				break;
 			
 			case KeyEvent.VK_RIGHT:
-				panel.game.character.moveRight();
-				panel.repaint();
+				if(panel.game.move("right")) panel.repaint();
 				break;
 			
 			case KeyEvent.VK_UP:
-				panel.game.character.moveUp();
-				panel.repaint();
+				if(panel.game.move("up")) panel.repaint();
 				break;
 	
 			case KeyEvent.VK_DOWN:
-				panel.game.character.moveDown();
-				panel.repaint();
+				if(panel.game.move("down")) panel.repaint();
 				break;
 		}
 	}

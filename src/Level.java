@@ -30,4 +30,22 @@ public class Level {
 		
 		sc.close();
 	}
+	
+	public void setLevelCase(char c, int i, int j) {
+		tabLevel[i][j] = c;
+	}
+	
+	public char getLevelCase(int i, int j) {
+		return tabLevel[i][j];
+	}
+	
+	//For debug only
+	public void showTable() {
+		for(int i = 0; i < 15; i++) {
+			for(int j = 0; j < 25; j++) {
+				System.out.print(tabLevel[i][j]);
+			}
+			System.out.print("\r");
+		}
+	}
 }
