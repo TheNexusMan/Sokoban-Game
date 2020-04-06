@@ -1,7 +1,4 @@
-import java.awt.Color;
-
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class Window extends JFrame {
 	public Window() {
@@ -10,7 +7,10 @@ public class Window extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		this.setContentPane(new Panel());               
+		Panel panel = new Panel();
+		this.setContentPane(panel);      
+		panel.addKeyListener(new SokoKeyListener(panel));
+		panel.setFocusable(true);
 		this.setVisible(true);
 	}
 }

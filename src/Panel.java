@@ -10,6 +10,10 @@ public class Panel extends JPanel {
 	
 	Game game = new Game();
 	
+	Panel(){
+		
+	}
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
