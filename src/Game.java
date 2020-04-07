@@ -1,11 +1,12 @@
 
 public class Game {
+	public static int boxTabSize = 20;
 	private int currentLevelNum;
 	private Level currentLevel = new Level();
 	private int nbMoves = 0; //Score (lower is best)
 	private MovableElem character = new MovableElem();
 	private int nbBoxes = 0;
-	private MovableElem boxes [] = new MovableElem [20];
+	private MovableElem boxes [] = new MovableElem [boxTabSize];
 	
 	Game() {
 		currentLevelNum = 1;
@@ -17,8 +18,8 @@ public class Game {
 		currentLevel.initLevel(levelNum);
 
 		//Loading of the initial positions of the character and boxes
-		for(int i = 0; i < 25; i++) {
-			for(int j = 0; j < 25; j++) {
+		for(int i = 0; i < Level.tabSize; i++) {
+			for(int j = 0; j < Level.tabSize; j++) {
 				
 				switch (this.currentLevel.getLevelCaseIJ(i, j)) {
 				case '@':
@@ -64,8 +65,8 @@ public class Game {
 		nbBoxes = 0;
 		
 		//Loading of the initial positions of the character and boxes
-		for(int i = 0; i < 25; i++) {
-			for(int j = 0; j < 25; j++) {
+		for(int i = 0; i < Level.tabSize; i++) {
+			for(int j = 0; j < Level.tabSize; j++) {
 				
 				switch (this.currentLevel.getLevelCaseIJ(i, j)) {
 				case '@':

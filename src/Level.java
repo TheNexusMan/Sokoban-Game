@@ -3,7 +3,8 @@ import java.io.FileNotFoundException;
 import java.util.Scanner; 
 
 public class Level {
-	private char tabLevel[][] = new char[25][25]; //Where the level is loaded
+	public static int tabSize = 25;
+	private char tabLevel[][] = new char[tabSize][tabSize]; //Where the level is loaded
 	
 	public void initLevel(int levelNum) {
 		File file = new File("data\\levels\\level-" + levelNum + ".txt");
@@ -50,8 +51,8 @@ public class Level {
 	
 	//For debug only, show the level as it is loaded in the table
 	public void showTable() {
-		for(int i = 0; i < 15; i++) {
-			for(int j = 0; j < 25; j++) {
+		for(int i = 0; i < tabSize; i++) {
+			for(int j = 0; j < tabSize; j++) {
 				System.out.print(tabLevel[i][j]);
 			}
 			System.out.print("\r");
