@@ -31,11 +31,11 @@ public class Level {
 		sc.close();
 	}
 	
-	public void setLevelCase(char c, int i, int j) {
+	public void setLevelCaseXY(char c, int j, int i) {
 		tabLevel[i][j] = c;
 	}
 	
-	public char getLevelCase(int i, int j) {
+	public char getLevelCaseXY(int j, int i) {
 		return tabLevel[i][j];
 	}
 	
