@@ -3,10 +3,10 @@ import java.io.FileNotFoundException;
 import java.util.Scanner; 
 
 public class Level {
-	public char tabLevel[][] = new char[25][25];
+	private char tabLevel[][] = new char[25][25]; //Where the level is loaded
 	
-	public void initLevel() {
-		File file = new File("data\\levels\\level-1.txt");
+	public void initLevel(int levelNum) {
+		File file = new File("data\\levels\\level-" + levelNum + ".txt");
 		Scanner sc = null;
 		try {
 			sc = new Scanner(file);
@@ -31,15 +31,24 @@ public class Level {
 		sc.close();
 	}
 	
-	public void setLevelCaseXY(char c, int j, int i) {
+	//Two functions to access to tabLevel to avoid confusion between XY axes and ij indexes
+	public void setLevelCaseIJ(char c, int i, int j) {
 		tabLevel[i][j] = c;
 	}
 	
-	public char getLevelCaseXY(int j, int i) {
+	public char getLevelCaseIJ(int i, int j) {
 		return tabLevel[i][j];
 	}
 	
-	//For debug only
+	public void setLevelCaseXY(char c, int X, int Y) {
+		tabLevel[Y][X] = c;
+	}
+	
+	public char getLevelCaseXY(int X, int Y) {
+		return tabLevel[Y][X];
+	}
+	
+	//For debug only, show the level as it is loaded in the table
 	public void showTable() {
 		for(int i = 0; i < 15; i++) {
 			for(int j = 0; j < 25; j++) {

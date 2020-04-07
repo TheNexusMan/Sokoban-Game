@@ -1,8 +1,8 @@
 
 public class MovableElem {
 	private int posX, posY;
-	private String type;
-	private Boolean isInPosition;
+	private String type; //"character" or "box"
+	private Boolean isInPosition; //For boxes only : true if the box is in a box position
 	
 	public void setPosX(int x) {
 		posX = x;

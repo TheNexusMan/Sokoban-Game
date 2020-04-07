@@ -13,6 +13,7 @@ public class SokoKeyListener implements KeyListener {
 	public void keyTyped(KeyEvent e) {
 	}
 
+	//The different actions do do when the player press a key
 	@Override
 	public void keyPressed(KeyEvent e) {
 		
@@ -31,6 +32,11 @@ public class SokoKeyListener implements KeyListener {
 	
 			case KeyEvent.VK_DOWN:
 				if(panel.game.move("down")) panel.repaint();
+				break;
+			
+			case KeyEvent.VK_R:
+				panel.game.restartLevel(); //Press R to restart the level
+				panel.repaint();
 				break;
 		}
 	}
