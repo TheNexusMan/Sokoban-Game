@@ -1,8 +1,6 @@
 
-public class MovableElem {
+public abstract class MovableElem {
 	private int posX, posY;
-	private String type; //"character" or "box"
-	private Boolean isInPosition; //For boxes only : true if the box is in a box position
 	
 	public void setPosX(int x) {
 		posX = x;
@@ -20,36 +18,23 @@ public class MovableElem {
 		return posY;
 	}
 	
-	public void setType(String type) {
-		this.type = type;
+	public void move(String direction) {
+		switch(direction) {
+			case "left":
+				posX--;
+				break;
+				
+			case "right":
+				posX++;
+				break;
+				
+			case "up":
+				posY--;
+				break;
+				
+			case "down":
+				posY++;
+				break;
+		}
 	}
-	
-	public String getType() {
-		return type;
-	}
-	
-	public void setIsInPosition(Boolean position) {
-		this.isInPosition = position;
-	}
-	
-	public Boolean getIsInPosition() {
-		return isInPosition;
-	}
-	
-	public void moveUp() {
-		posY--;
-	}
-	
-	public void moveDown() {
-		posY++;
-	}
-	
-	public void moveLeft() {
-		posX--;
-	}
-	
-	public void moveRight() {
-		posX++;
-	}
-	
 }

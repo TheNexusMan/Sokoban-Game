@@ -18,16 +18,11 @@ public class Panel extends JPanel {
 		this.setBackground(Color.LIGHT_GRAY); 
 		
 		//Loading textures
-		Image imgPlayer = null;
 		Image imgWall = null;
-		Image imgGround = null;
-		Image imgBox = null;
 		Image imgPosition = null;
 
 		try {
-		    imgPlayer = ImageIO.read(new File("data\\texture\\player.png"));
 		    imgWall = ImageIO.read(new File("data\\texture\\wall.png"));
-		    imgBox = ImageIO.read(new File("data\\texture\\box.jpg"));
 		    imgPosition = ImageIO.read(new File("data\\texture\\position.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -54,11 +49,16 @@ public class Panel extends JPanel {
 		}
 		
 		//Display character
-		g.drawImage(imgPlayer, (int) (game.getCharacter().getPosX()*((4*this.getWidth())/100)), (int) (game.getCharacter().getPosY()*((4*this.getHeight())/100)), (int) ((4*this.getWidth())/100), (int) ((4*this.getHeight())/100), this);
+		g.drawImage(game.getCharacter().getImgCharacter(), (int) (game.getCharacter().getPosX()*((4*this.getWidth())/100)), (int) (game.getCharacter().getPosY()*((4*this.getHeight())/100)), (int) ((4*this.getWidth())/100), (int) ((4*this.getHeight())/100), this);
 		
 		//Display boxes
 		for(int i = 0; i < game.getNbBoxes(); i++) {
-			g.drawImage(imgBox, (int) (game.getBoxes()[i].getPosX()*((4*this.getWidth())/100)), (int) (game.getBoxes()[i].getPosY()*((4*this.getHeight())/100)), (int) ((4*this.getWidth())/100), (int) ((4*this.getHeight())/100), this);
+			Image boxImg = null;
+			
+			if(game.getBoxes()[i].IsInPosition()) boxImg = game.getBoxes()[i].getImgBoxInPosition();
+			else boxImg = game.getBoxes()[i].getImgBox();
+			
+			g.drawImage(boxImg, (int) (game.getBoxes()[i].getPosX()*((4*this.getWidth())/100)), (int) (game.getBoxes()[i].getPosY()*((4*this.getHeight())/100)), (int) ((4*this.getWidth())/100), (int) ((4*this.getHeight())/100), this);
 		}
 	}               
 }

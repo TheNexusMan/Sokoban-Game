@@ -4,9 +4,9 @@ public class Game {
 	private int currentLevelNum;
 	private Level currentLevel = new Level();
 	private int nbMoves = 0; //Score (lower is best)
-	private MovableElem character = new MovableElem();
+	private Character character = new Character();
 	private int nbBoxes = 0;
-	private MovableElem boxes [] = new MovableElem [boxTabSize];
+	private Box boxes [] = new Box [boxTabSize];
 	
 	Game() {
 		currentLevelNum = 1;
@@ -25,15 +25,13 @@ public class Game {
 				case '@':
 					character.setPosX(j);
 					character.setPosY(i);
-					character.setType("character");
 					break;
 				
 				case '*':
-					boxes[nbBoxes] = new MovableElem();
+					boxes[nbBoxes] = new Box();
 					boxes[nbBoxes].setPosX(j);
 					boxes[nbBoxes].setPosY(i);
 					boxes[nbBoxes].setIsInPosition(false);
-					boxes[nbBoxes].setType("box");
 					nbBoxes++;
 					break;
 					
@@ -48,7 +46,7 @@ public class Game {
 		return currentLevel;
 	}
 	
-	public MovableElem getCharacter() {
+	public Character getCharacter() {
 		return character;
 	}
 	
@@ -56,7 +54,7 @@ public class Game {
 		return nbBoxes;
 	}
 	
-	public MovableElem [] getBoxes() {
+	public Box [] getBoxes() {
 		return boxes;
 	}
 	
@@ -89,58 +87,45 @@ public class Game {
 	public boolean move(String direction) {
 		
 		boolean hasMoved = false;
+		int casePosX = character.getPosX();
+		int casePosY = character.getPosY();
+		int secondCasePosX = character.getPosX();
+		int secondCasePosY = character.getPosY();
 		
 		switch(direction) {
 			case "left":
-				if(currentLevel.getLevelCaseXY(character.getPosX()-1, character.getPosY()) == 'X') return false; //If character in front of a wall = no move
-				if(isThereABoxInXY(character.getPosX()-1, character.getPosY()) && isThereABoxInXY(character.getPosX()-2, character.getPosY())) return false; //If character in front of two boxes = no move
-				if(isThereABoxInXY(character.getPosX()-1, character.getPosY()) && currentLevel.getLevelCaseXY(character.getPosX()-2, character.getPosY()) == 'X') return false; //If character in front of a box followed by a wall = no move
-				if(isThereABoxInXY(character.getPosX()-1, character.getPosY())) { //If we pass the previous tests and the character is in front of a box = we move the box
-					getBoxAtXY(character.getPosX()-1, character.getPosY()).moveLeft();
-				}
-				character.moveLeft(); //If we reach this point, the character can move
-				nbMoves++; //We increase the number of moves, the "score"
-				hasMoved = true;
+				casePosX--;
+				secondCasePosX = secondCasePosX - 2;
 				break;
 				
 			case "right":
-				if(currentLevel.getLevelCaseXY(character.getPosX()+1, character.getPosY()) == 'X') return false;
-				if(isThereABoxInXY(character.getPosX()+1, character.getPosY()) && isThereABoxInXY(character.getPosX()+2, character.getPosY())) return false;
-				if(isThereABoxInXY(character.getPosX()+1, character.getPosY()) && currentLevel.getLevelCaseXY(character.getPosX()+2, character.getPosY()) == 'X') return false;
-				if(isThereABoxInXY(character.getPosX()+1, character.getPosY())) {
-					getBoxAtXY(character.getPosX()+1, character.getPosY()).moveRight();
-				}
-				character.moveRight();
-				nbMoves++;
-				hasMoved = true;
+				casePosX++;
+				secondCasePosX = secondCasePosX + 2;
 				break;
 				
 			case "up":
-				if(currentLevel.getLevelCaseXY(character.getPosX(), character.getPosY()-1) == 'X') return false;
-				if(isThereABoxInXY(character.getPosX(), character.getPosY()-1) && isThereABoxInXY(character.getPosX(), character.getPosY()-2)) return false;
-				if(isThereABoxInXY(character.getPosX(), character.getPosY()-1) && currentLevel.getLevelCaseXY(character.getPosX(), character.getPosY()-2) == 'X') return false;
-				
-				if(isThereABoxInXY(character.getPosX(), character.getPosY()-1)) {
-					getBoxAtXY(character.getPosX(), character.getPosY()-1).moveUp();
-				}
-				character.moveUp();
-				nbMoves++;
-				hasMoved = true;
+				casePosY--;
+				secondCasePosY = secondCasePosY - 2;
 				break;
 				
 			case "down":
-				if(currentLevel.getLevelCaseXY(character.getPosX(), character.getPosY()+1) == 'X') return false;
-				if(isThereABoxInXY(character.getPosX(), character.getPosY()+1) && isThereABoxInXY(character.getPosX(), character.getPosY()+2)) return false;
-				if(isThereABoxInXY(character.getPosX(), character.getPosY()+1) && currentLevel.getLevelCaseXY(character.getPosX(), character.getPosY()+2) == 'X') return false;
-				
-				if(isThereABoxInXY(character.getPosX(), character.getPosY()+1)) {
-					getBoxAtXY(character.getPosX(), character.getPosY()+1).moveDown();
-				}
-				character.moveDown();
-				nbMoves++;
-				hasMoved = true;
+				casePosY++;
+				secondCasePosY = secondCasePosY + 2;
 				break;
 		}
+		
+		if(currentLevel.getLevelCaseXY(casePosX, casePosY) == 'X') return false; //If character in front of a wall = no move
+		if(isThereABoxInXY(casePosX, casePosY) && isThereABoxInXY(secondCasePosX, secondCasePosY)) return false; //If character in front of two boxes = no move
+		if(isThereABoxInXY(casePosX, casePosY) && currentLevel.getLevelCaseXY(secondCasePosX, secondCasePosY) == 'X') return false; //If character in front of a box followed by a wall = no move
+		
+		if(isThereABoxInXY(casePosX, casePosY)) { //If we pass the previous tests and the character is in front of a box = we move the box
+			if(currentLevel.getLevelCaseXY(secondCasePosX, secondCasePosY) == '.') getBoxAtXY(casePosX, casePosY).setIsInPosition(true); //If the case behind the moving box is a box position, box's isInPosition become true
+			else if(getBoxAtXY(casePosX, casePosY).IsInPosition()) getBoxAtXY(casePosX, casePosY).setIsInPosition(false); //If the box was in a position and is move on a non position case, box's IsInPosition become false
+			getBoxAtXY(casePosX, casePosY).move(direction); //Then the box move
+		}
+		character.move(direction); //If we reach this point, the character can move
+		nbMoves++; //We increase the number of moves, the "score"
+		hasMoved = true;
 		
 		return hasMoved;
 	}
@@ -155,11 +140,11 @@ public class Game {
 	}
 	
 	//Function to get the box in position (X,Y)
-	public MovableElem getBoxAtXY(int X, int Y) {
+	public Box getBoxAtXY(int X, int Y) {
 		for(int i = 0; i < nbBoxes; i++) {
 			if(boxes[i].getPosX() == X && boxes[i].getPosY() == Y) return boxes[i];
 		}
 		
-		return new MovableElem();
+		return new Box();
 	}
 }
