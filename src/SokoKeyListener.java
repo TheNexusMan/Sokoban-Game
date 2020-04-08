@@ -3,7 +3,7 @@ import java.awt.event.KeyListener;
 
 public class SokoKeyListener implements KeyListener {
 
-	Panel panel = new Panel();
+	public Panel panel;
 	
 	SokoKeyListener(Panel panel){
 		this.panel = panel;

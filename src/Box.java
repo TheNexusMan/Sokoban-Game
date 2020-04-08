@@ -9,7 +9,12 @@ public class Box extends MovableElem {
 	private Image imgBox = null;
 	private Image imgBoxInPosition = null;
 	
-	Box(){
+	Box(int i, int j, boolean isInPosition){
+		
+		setPosX(j);
+		setPosY(i);
+		setIsInPosition(isInPosition);
+		
 		try {
 		    setImgBox(ImageIO.read(new File("data\\texture\\box.jpg")));
 		    setImgBoxInPosition(ImageIO.read(new File("data\\texture\\boxInPosition.jpg")));

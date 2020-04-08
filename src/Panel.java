@@ -9,7 +9,15 @@ import javax.swing.JPanel;
 //Panel class is use to display the different elements we want to show
 public class Panel extends JPanel {
 	
-	Game game = new Game();
+	public Game game;
+	Panel(Game game){
+		super();
+		this.game = game;
+	}
+	
+	Panel(){
+		super();
+	}
 	
 	//paintComponent procedure display the different elements on the panel
 	public void paintComponent(Graphics g) {

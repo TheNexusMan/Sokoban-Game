@@ -1,3 +1,4 @@
+import javax.swing.JPanel;
 
 public class Game {
 	public static int boxTabSize = 20;
@@ -28,10 +29,7 @@ public class Game {
 					break;
 				
 				case '*':
-					boxes[nbBoxes] = new Box();
-					boxes[nbBoxes].setPosX(j);
-					boxes[nbBoxes].setPosY(i);
-					boxes[nbBoxes].setIsInPosition(false);
+					boxes[nbBoxes] = new Box(i, j, false);
 					nbBoxes++;
 					break;
 					
@@ -95,22 +93,22 @@ public class Game {
 		switch(direction) {
 			case "left":
 				casePosX--;
-				secondCasePosX = secondCasePosX - 2;
+				secondCasePosX -= 2;
 				break;
 				
 			case "right":
 				casePosX++;
-				secondCasePosX = secondCasePosX + 2;
+				secondCasePosX += 2;
 				break;
 				
 			case "up":
 				casePosY--;
-				secondCasePosY = secondCasePosY - 2;
+				secondCasePosY -= 2;
 				break;
 				
 			case "down":
 				casePosY++;
-				secondCasePosY = secondCasePosY + 2;
+				secondCasePosY += 2;
 				break;
 		}
 		
@@ -145,6 +143,16 @@ public class Game {
 			if(boxes[i].getPosX() == X && boxes[i].getPosY() == Y) return boxes[i];
 		}
 		
-		return new Box();
+		return new Box(0, 0, false);
+	}
+	
+	public void endLevel() {
+		JPanel EndPanel = new JPanel();
+		EndPanel.setFocusable(true);
+		EndPanel.addKeyListener(new EndLevelKeyListener(this));
+	}
+	
+	public void nextLevel() {
+		System.out.println("Next level function to do.");
 	}
 }
