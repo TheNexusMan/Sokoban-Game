@@ -17,27 +17,45 @@ public class SokoKeyListener implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		
-		switch(e.getKeyCode()) {
-			case KeyEvent.VK_LEFT:
-				if(panel.game.move("left")) panel.repaint(); //if the character can move, we repaint the panel
-				break;
-			
-			case KeyEvent.VK_RIGHT:
-				if(panel.game.move("right")) panel.repaint();
-				break;
-			
-			case KeyEvent.VK_UP:
-				if(panel.game.move("up")) panel.repaint();
-				break;
-	
-			case KeyEvent.VK_DOWN:
-				if(panel.game.move("down")) panel.repaint();
-				break;
-			
-			case KeyEvent.VK_R:
-				panel.game.restartLevel(); //Press R to restart the level
-				panel.repaint();
-				break;
+		//Keys for playing
+		if(panel.game.gameOn) {
+			switch(e.getKeyCode()) {
+				case KeyEvent.VK_LEFT:
+					if(panel.game.move("left")) panel.repaint(); //if the character can move, we repaint the panel
+					break;
+				
+				case KeyEvent.VK_RIGHT:
+					if(panel.game.move("right")) panel.repaint();
+					break;
+				
+				case KeyEvent.VK_UP:
+					if(panel.game.move("up")) panel.repaint();
+					break;
+		
+				case KeyEvent.VK_DOWN:
+					if(panel.game.move("down")) panel.repaint();
+					break;
+				
+				case KeyEvent.VK_R:
+					panel.game.restartLevel();
+					panel.repaint();
+					break;
+			}
+		}
+		
+		//Keys for end level pop-in
+		if(panel.game.levelEnded) {
+			switch(e.getKeyCode()) {
+				case KeyEvent.VK_ENTER:
+					panel.game.saveGame();
+					panel.game.nextLevel();
+					break;
+				
+				case KeyEvent.VK_R:
+					panel.game.restartLevel();
+					panel.repaint();
+					break;
+			}
 		}
 	}
 

@@ -17,7 +17,7 @@ public abstract class MovableElem {
 	public int getPosY() {
 		return posY;
 	}
-	
+
 	public void move(String direction) {
 		switch(direction) {
 			case "left":

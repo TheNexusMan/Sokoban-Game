@@ -4,7 +4,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Character extends MovableElem {
-	private Image imgCharacter = null;
+	private Image imgCharacter = null; //Character's image
 	
 	Character(){
 		try {

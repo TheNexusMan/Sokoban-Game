@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
@@ -9,6 +10,7 @@ import javax.swing.JPanel;
 //Panel class is use to display the different elements we want to show
 public class Panel extends JPanel {
 	
+	//We need to pass the game to the panel ton access it
 	public Game game;
 	Panel(Game game){
 		super();
@@ -23,15 +25,22 @@ public class Panel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
+		//Set game font and background
+		Font font = new Font(Font.SANS_SERIF, Font.BOLD, 18);
+	    g.setFont(font);
 		this.setBackground(Color.LIGHT_GRAY); 
 		
 		//Loading textures
 		Image imgWall = null;
 		Image imgPosition = null;
+		Image imgBox = null;
+		Image imgBoxInPosition = null;
 
 		try {
 		    imgWall = ImageIO.read(new File("data\\texture\\wall.png"));
 		    imgPosition = ImageIO.read(new File("data\\texture\\position.png"));
+		    imgBox = ImageIO.read(new File("data\\texture\\box.jpg"));
+		    imgBoxInPosition = ImageIO.read(new File("data\\texture\\boxInPosition.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -61,12 +70,17 @@ public class Panel extends JPanel {
 		
 		//Display boxes
 		for(int i = 0; i < game.getNbBoxes(); i++) {
-			Image boxImg = null;
-			
-			if(game.getBoxes()[i].IsInPosition()) boxImg = game.getBoxes()[i].getImgBoxInPosition();
-			else boxImg = game.getBoxes()[i].getImgBox();
-			
-			g.drawImage(boxImg, (int) (game.getBoxes()[i].getPosX()*((4*this.getWidth())/100)), (int) (game.getBoxes()[i].getPosY()*((4*this.getHeight())/100)), (int) ((4*this.getWidth())/100), (int) ((4*this.getHeight())/100), this);
+			g.drawImage(game.getBoxes()[i].IsInPosition() ? imgBoxInPosition : imgBox, (int) (game.getBoxes()[i].getPosX()*((4*this.getWidth())/100)), (int) (game.getBoxes()[i].getPosY()*((4*this.getHeight())/100)), (int) ((4*this.getWidth())/100), (int) ((4*this.getHeight())/100), this);
 		}
-	}               
+		
+		//Display end level pop-in
+		if(game.levelEnded) {
+			g.fillRoundRect((this.getWidth()/2)-200, (this.getHeight()/2)-100, 400, 200, 5, 5);
+		    g.setColor(Color.red);          
+		    g.drawString("Nombre de déplacements : " + game.getNbMoves(), (this.getWidth()/2)-150, (this.getHeight()/2-50));
+		    g.setColor(Color.white); 
+		    g.drawString("Niveau suivant (Enter)", (this.getWidth()/2)-150, (this.getHeight()/2));
+		    g.drawString("Recommencer le niveau (R)", (this.getWidth()/2)-150, (this.getHeight()/2+30));
+		}
+	}
 }
