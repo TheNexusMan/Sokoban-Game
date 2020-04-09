@@ -7,10 +7,12 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-//Panel class is use to display the different elements we want to show
+//Panel class is used to display the different elements we want to show
 public class Panel extends JPanel {
+
+	private static final long serialVersionUID = 1L;
 	
-	//We need to pass the game to the panel ton access it
+	//We need to pass the game to panel to access it
 	public Game game;
 	Panel(Game game){
 		super();
@@ -66,11 +68,11 @@ public class Panel extends JPanel {
 		}
 		
 		//Display character
-		g.drawImage(game.getCharacter().getImgCharacter(), (int) (game.getCharacter().getPosX()*((4*this.getWidth())/100)), (int) (game.getCharacter().getPosY()*((4*this.getHeight())/100)), (int) ((4*this.getWidth())/100), (int) ((4*this.getHeight())/100), this);
+		g.drawImage(game.getLevel().getCharacter().getImgCharacter(), (int) (game.getLevel().getCharacter().getPosX()*((4*this.getWidth())/100)), (int) (game.getLevel().getCharacter().getPosY()*((4*this.getHeight())/100)), (int) ((4*this.getWidth())/100), (int) ((4*this.getHeight())/100), this);
 		
 		//Display boxes
-		for(int i = 0; i < game.getNbBoxes(); i++) {
-			g.drawImage(game.getBoxes()[i].IsInPosition() ? imgBoxInPosition : imgBox, (int) (game.getBoxes()[i].getPosX()*((4*this.getWidth())/100)), (int) (game.getBoxes()[i].getPosY()*((4*this.getHeight())/100)), (int) ((4*this.getWidth())/100), (int) ((4*this.getHeight())/100), this);
+		for(int i = 0; i < game.getLevel().getNbBoxes(); i++) {
+			g.drawImage(game.getLevel().getBoxes()[i].IsInPosition() ? imgBoxInPosition : imgBox, (int) (game.getLevel().getBoxes()[i].getPosX()*((4*this.getWidth())/100)), (int) (game.getLevel().getBoxes()[i].getPosY()*((4*this.getHeight())/100)), (int) ((4*this.getWidth())/100), (int) ((4*this.getHeight())/100), this);
 		}
 		
 		//Display end level pop-in

@@ -1,6 +1,8 @@
 
+//MovableElem is a parent class for Box and Character that are moving objects in the game
 public abstract class MovableElem {
-	private int posX, posY;
+	private int posX, posY; //Actual position of the object
+	private int initPosX, initPosY; //Initial position of the object
 	
 	public void setPosX(int x) {
 		posX = x;
@@ -16,6 +18,27 @@ public abstract class MovableElem {
 	
 	public int getPosY() {
 		return posY;
+	}
+
+	public int getInitPosX() {
+		return initPosX;
+	}
+
+	public void setInitPosX(int initPosX) {
+		this.initPosX = initPosX;
+	}
+
+	public int getInitPosY() {
+		return initPosY;
+	}
+
+	public void setInitPosY(int initPosY) {
+		this.initPosY = initPosY;
+	}
+	
+	public void moveToInitialPos() {
+		posX = initPosX;
+		posY = initPosY;
 	}
 
 	public void move(String direction) {

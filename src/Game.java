@@ -1,47 +1,66 @@
-import javax.swing.JPanel;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
+//Game is the main class
 public class Game {
-	public static int boxTabSize = 20;
+	public static int nbLevel = 49;
 	public Window window;
+	private Level levels [] = new Level[nbLevel];
 	private int currentLevelNum;
-	private Level currentLevel = new Level();
 	private int nbMoves = 0; //Score (lower is best)
-	private Character character = new Character();
-	private int nbBoxes = 0;
-	private Box boxes [] = new Box [boxTabSize];
 	public boolean gameOn = true;
 	public boolean levelEnded = false;
 	
 	Game() {
-		currentLevelNum = 1;
+		setCurrentLevelNum(0);
+		loadAllLevels();
 		initGame(currentLevelNum);
 		window = new Window(this);
 	}
 	
-	//Game and level initialisation
+	//Game and level initialization
 	private void initGame(int levelNum) {
-		currentLevel.initLevel(levelNum);
-
-		//Loading of the initial positions of the character and boxes
-		for(int i = 0; i < Level.tabSize; i++) {
-			for(int j = 0; j < Level.tabSize; j++) {
-				
-				switch (this.currentLevel.getLevelCaseIJ(i, j)) {
-				case '@':
-					character.setPosX(j);
-					character.setPosY(i);
-					break;
-				
-				case '*':
-					boxes[nbBoxes] = new Box(i, j, false);
-					nbBoxes++;
-					break;
-					
-				default:
-					break;
-				}
-			}
+		setNbMoves(0);
+		setCurrentLevelNum(levelNum);
+		gameOn = true;
+		levelEnded = false;
+	}
+	
+	//Load all levels from txt file
+	private void loadAllLevels() {
+		File file = new File("data\\levels\\levels.txt");
+		Scanner sc = null;
+		try {
+			sc = new Scanner(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
+		String line;
+		int i = 0;
+		int l = -1; //level index in levels table
+		
+		while (sc.hasNextLine()) { //We go through the file as long as we have lines
+			line = sc.nextLine();
+			
+			if(line.equals("break")) { //If we encounter a "break" line, it means we're reading a new level
+				i = 0;
+				l++;
+				levels[l] = new Level();
+				line = sc.nextLine(); //line equal next line so we don't save the word "break"
+			}
+			
+			for(int j = 0; j < line.length(); j++) //We go through the line
+			{
+				if(line.charAt(j) == '*') levels[l].addABox(i, j); //We add a new box
+				if(line.charAt(j) == '@') levels[l].createCharacter(i, j); //We save the character position
+				levels[l].setLevelCaseIJ(line.charAt(j), i, j);
+			}
+			
+			i++;
+		}
+		
+		sc.close();
 	}
 	
 	public int getNbMoves() {
@@ -57,54 +76,30 @@ public class Game {
 	}
 
 	public Level getLevel() {
-		return currentLevel;
+		return levels[currentLevelNum];
 	}
 	
-	public Character getCharacter() {
-		return character;
+	public int getCurrentLevelNum() {
+		return currentLevelNum;
 	}
-	
-	public int getNbBoxes() {
-		return nbBoxes;
-	}
-	
-	public Box [] getBoxes() {
-		return boxes;
+
+	public void setCurrentLevelNum(int currentLevelNum) {
+		this.currentLevelNum = currentLevelNum;
 	}
 	
 	public void restartLevel() {
 		gameOn = true;
 		levelEnded = false;
 		setNbMoves(0);
-		nbBoxes = 0;
-		
-		//Loading of the initial positions of the character and boxes
-		for(int i = 0; i < Level.tabSize; i++) {
-			for(int j = 0; j < Level.tabSize; j++) {
-				
-				switch (this.currentLevel.getLevelCaseIJ(i, j)) {
-				case '@':
-					character.setPosX(j);
-					character.setPosY(i);
-					break;
-				
-				case '*':
-					boxes[nbBoxes].setPosX(j);
-					boxes[nbBoxes].setPosY(i);
-					boxes[nbBoxes].setIsInPosition(false);
-					nbBoxes++;
-					break;
-				}
-			}
-		}
+		levels[currentLevelNum].resetLevel();
 	}
 	
 	//Function that move character and boxes when it's possible. It return a boolean to say if the move has been done
 	public boolean move(String direction) {
-		int casePosX = character.getPosX();
-		int casePosY = character.getPosY();
-		int secondCasePosX = character.getPosX();
-		int secondCasePosY = character.getPosY();
+		int casePosX = levels[currentLevelNum].getCharacter().getPosX();
+		int casePosY = levels[currentLevelNum].getCharacter().getPosY();
+		int secondCasePosX = casePosX;
+		int secondCasePosY = casePosY;
 		
 		switch(direction) {
 			case "left":
@@ -128,52 +123,26 @@ public class Game {
 				break;
 		}
 		
-		if(currentLevel.getLevelCaseXY(casePosX, casePosY) == 'X') return false; //If character in front of a wall = no move
-		if(isThereABoxInXY(casePosX, casePosY) && isThereABoxInXY(secondCasePosX, secondCasePosY)) return false; //If character in front of two boxes = no move
-		if(isThereABoxInXY(casePosX, casePosY) && currentLevel.getLevelCaseXY(secondCasePosX, secondCasePosY) == 'X') return false; //If character in front of a box followed by a wall = no move
+		if(levels[currentLevelNum].getLevelCaseXY(casePosX, casePosY) == 'X') return false; //If character in front of a wall = no move
+		if(levels[currentLevelNum].isThereABoxInXY(casePosX, casePosY) && levels[currentLevelNum].isThereABoxInXY(secondCasePosX, secondCasePosY)) return false; //If character in front of two boxes = no move
+		if(levels[currentLevelNum].isThereABoxInXY(casePosX, casePosY) && levels[currentLevelNum].getLevelCaseXY(secondCasePosX, secondCasePosY) == 'X') return false; //If character in front of a box followed by a wall = no move
 		
-		if(isThereABoxInXY(casePosX, casePosY)) { //If we pass the previous tests and the character is in front of a box , we can move the box
-			if(currentLevel.getLevelCaseXY(secondCasePosX, secondCasePosY) == '.') {
-				getBoxAtXY(casePosX, casePosY).setIsInPosition(true); //If the case behind the moving box is a box position, box's isInPosition become true
+		if(levels[currentLevelNum].isThereABoxInXY(casePosX, casePosY)) { //If we pass the previous tests and the character is in front of a box , we can move the box
+			if(levels[currentLevelNum].getLevelCaseXY(secondCasePosX, secondCasePosY) == '.') {
+				levels[currentLevelNum].getBoxAtXY(casePosX, casePosY).setIsInPosition(true); //If the case behind the moving box is a box position, box's isInPosition become true
 				endLevel(); //We test if all the boxes are in position to end level
-			} else if(getBoxAtXY(casePosX, casePosY).IsInPosition()) getBoxAtXY(casePosX, casePosY).setIsInPosition(false); //If the box was in a position and is move on a non-position case, box's IsInPosition become false
-			getBoxAtXY(casePosX, casePosY).move(direction); //Then the box move
+			} else if(levels[currentLevelNum].getBoxAtXY(casePosX, casePosY).IsInPosition()) levels[currentLevelNum].getBoxAtXY(casePosX, casePosY).setIsInPosition(false); //If the box was in a position and is move on a non-position case, box's IsInPosition become false
+			levels[currentLevelNum].getBoxAtXY(casePosX, casePosY).move(direction); //Then the box move
+			increaseNbMoves(); //We increase the number of box moves, the "score"
 		}
-		character.move(direction); //If we reach this point, the character can move
-		increaseNbMoves(); //We increase the number of moves, the "score"
+		levels[currentLevelNum].getCharacter().move(direction); //If we reach this point, the character can move
 		
-		return true;
-	}
-	
-	//Function to test if there is a box in position (X,Y)
-	public boolean isThereABoxInXY(int X, int Y) {
-		for(int i = 0; i < nbBoxes; i++) {
-			if(boxes[i].getPosX() == X && boxes[i].getPosY() == Y) return true;
-		}
-		
-		return false;
-	}
-	
-	//Function to get the box in position (X,Y)
-	public Box getBoxAtXY(int X, int Y) {
-		for(int i = 0; i < nbBoxes; i++) {
-			if(boxes[i].getPosX() == X && boxes[i].getPosY() == Y) return boxes[i];
-		}
-		
-		return new Box(0, 0, false);
-	}
-	
-	//Function to test if all the boxes are in postion
-	public boolean allBoxesInPosition() {
-		for(int i = 0; i < nbBoxes; i++) {
-			if(!boxes[i].IsInPosition()) return false;
-		}
 		return true;
 	}
 	
 	//If all the boxes are in position, we stop the game and end level
 	public void endLevel() {
-		if(allBoxesInPosition()) {
+		if(levels[currentLevelNum].allBoxesInPosition()) {
 			gameOn = false;
 			levelEnded = true;
 		}
@@ -181,7 +150,9 @@ public class Game {
 	
 	//Function to pass to the next level
 	public void nextLevel() {
-		System.out.println("Next level function to do.");
+		saveGame();
+		levels[currentLevelNum].resetLevel();
+		if(currentLevelNum+1 != nbLevel) initGame(currentLevelNum+1);
 	}
 	
 	//Function to save current level informations

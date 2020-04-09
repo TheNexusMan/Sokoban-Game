@@ -1,6 +1,7 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+//SokoKeyListener class is used to perform actions according to the key pressed
 public class SokoKeyListener implements KeyListener {
 
 	public Panel panel;
@@ -13,7 +14,7 @@ public class SokoKeyListener implements KeyListener {
 	public void keyTyped(KeyEvent e) {
 	}
 
-	//The different actions do do when the player press a key
+	//The different actions to do when the player press a key
 	@Override
 	public void keyPressed(KeyEvent e) {
 		
@@ -47,8 +48,8 @@ public class SokoKeyListener implements KeyListener {
 		if(panel.game.levelEnded) {
 			switch(e.getKeyCode()) {
 				case KeyEvent.VK_ENTER:
-					panel.game.saveGame();
 					panel.game.nextLevel();
+					panel.repaint();
 					break;
 				
 				case KeyEvent.VK_R:
