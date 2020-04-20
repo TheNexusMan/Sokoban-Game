@@ -29,7 +29,9 @@ public class Game {
 	
 	//Load all levels from txt file
 	private void loadAllLevels() {
-		File file = new File("data\\levels\\levels.txt");
+		//File file = new File("data\\levels\\levels.txt");
+		File file = new File("data\\levels\\levels-easy.txt"); //For development only
+		//File file = new File("data\\levels\\levels-fullwall.txt"); //For development only
 		Scanner sc = null;
 		try {
 			sc = new Scanner(file);
@@ -39,25 +41,36 @@ public class Game {
 		String line;
 		int i = 0;
 		int l = -1; //level index in levels table
+		int width = 0; //Level width
 		
 		while (sc.hasNextLine()) { //We go through the file as long as we have lines
 			line = sc.nextLine();
 			
-			if(line.equals("break")) { //If we encounter a "break" line, it means we're reading a new level
+			if(line.equals("next")) { //If we encounter a "next" line, it means we've started to read a level
+				
 				i = 0;
 				l++;
+				width = 0;
 				levels[l] = new Level();
-				line = sc.nextLine(); //line equal next line so we don't save the word "break"
+				
+			} else if(line.equals("break")) { //If we encounter a "break" line, it means we've finished to read a level
+				
+				levels[l].setLevelWidth(width+1);
+				levels[l].setLevelHeight(i);
+				
+			} else {
+				
+				for(int j = 0; j < line.length(); j++) //We go through the line
+				{
+					if(line.charAt(j) == '*') levels[l].addABox(i, j); //We add a new box
+					if(line.charAt(j) == '@') levels[l].createCharacter(i, j); //We save the character position
+					levels[l].setLevelCaseIJ(line.charAt(j), i, j); //We save the character in the table
+					if(width < j) width = j;
+				}
+				i++;
+				
 			}
 			
-			for(int j = 0; j < line.length(); j++) //We go through the line
-			{
-				if(line.charAt(j) == '*') levels[l].addABox(i, j); //We add a new box
-				if(line.charAt(j) == '@') levels[l].createCharacter(i, j); //We save the character position
-				levels[l].setLevelCaseIJ(line.charAt(j), i, j);
-			}
-			
-			i++;
 		}
 		
 		sc.close();
@@ -124,7 +137,7 @@ public class Game {
 		}
 		
 		if(levels[currentLevelNum].getLevelCaseXY(casePosX, casePosY) == 'X') return false; //If character in front of a wall = no move
-		if(levels[currentLevelNum].isThereABoxInXY(casePosX, casePosY) && levels[currentLevelNum].isThereABoxInXY(secondCasePosX, secondCasePosY)) return false; //If character in front of two boxes = no move
+		if(levels[currentLevelNum].isThereABoxInXY(casePosX, casePosY) && levels[currentLevelNum].isThereABoxInXY(secondCasePosX, secondCasePosY)) return false; //If character is in front of two boxes = no move
 		if(levels[currentLevelNum].isThereABoxInXY(casePosX, casePosY) && levels[currentLevelNum].getLevelCaseXY(secondCasePosX, secondCasePosY) == 'X') return false; //If character in front of a box followed by a wall = no move
 		
 		if(levels[currentLevelNum].isThereABoxInXY(casePosX, casePosY)) { //If we pass the previous tests and the character is in front of a box , we can move the box

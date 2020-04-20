@@ -14,30 +14,20 @@ public class Panel extends JPanel {
 	
 	//We need to pass the game to panel to access it
 	public Game game;
+	private Font font = new Font(Font.SANS_SERIF, Font.BOLD, 18);
+	private Image imgWall = null;
+	private Image imgPosition = null;
+	private Image imgBox = null;
+	private Image imgBoxInPosition = null;
+	
 	Panel(Game game){
 		super();
 		this.game = game;
-	}
-	
-	Panel(){
-		super();
-	}
-	
-	//paintComponent procedure display the different elements on the panel
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
 		
 		//Set game font and background
-		Font font = new Font(Font.SANS_SERIF, Font.BOLD, 18);
-	    g.setFont(font);
 		this.setBackground(Color.LIGHT_GRAY); 
 		
 		//Loading textures
-		Image imgWall = null;
-		Image imgPosition = null;
-		Image imgBox = null;
-		Image imgBoxInPosition = null;
-
 		try {
 		    imgWall = ImageIO.read(new File("data\\texture\\wall.png"));
 		    imgPosition = ImageIO.read(new File("data\\texture\\position.png"));
@@ -46,6 +36,18 @@ public class Panel extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	//paintComponent procedure display the different elements on the panel
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.setFont(font);
+		
+		double blockSize = 3; //Block size in window percentage
+		double blockWidth = (blockSize*this.getWidth())/100; //Block width in pixel
+		double blockHeight = (blockSize*this.getHeight())/100; //Block height in pixel
+		int widthLevelStart = (int) ((this.getWidth() - (game.getLevel().getLevelWidth()*blockWidth))/2); //The width were we begin to display the level at the center
+		int heightLevelStart = 60; //The height were we begin to display the level
 		
 		//Display walls and boxes goal positions
 		for(int i = 0; i < Level.tabSize; i++) {
@@ -53,11 +55,11 @@ public class Panel extends JPanel {
 				
 				switch (game.getLevel().getLevelCaseIJ(i, j)) {
 				case 'X':
-					g.drawImage(imgWall, (int) (j*((4*this.getWidth())/100)), (int) (i*((4*this.getHeight())/100)), (int) ((4*this.getWidth())/100), (int) ((4*this.getHeight())/100), this);
+					g.drawImage(imgWall, (int) ((j*blockWidth) + widthLevelStart), (int) ((i*blockHeight) + heightLevelStart), (int) blockWidth, (int) blockHeight, this);
 					break;
 				
 				case '.':
-					g.drawImage(imgPosition, (int) (j*((4*this.getWidth())/100)), (int) (i*((4*this.getHeight())/100)), (int) ((4*this.getWidth())/100), (int) ((4*this.getHeight())/100), this);
+					g.drawImage(imgPosition, (int) ((j*blockWidth) + widthLevelStart), (int) ((i*blockHeight) + heightLevelStart), (int) blockWidth, (int) blockHeight, this);
 					break;
 					
 				default:
@@ -68,11 +70,11 @@ public class Panel extends JPanel {
 		}
 		
 		//Display character
-		g.drawImage(game.getLevel().getCharacter().getImgCharacter(), (int) (game.getLevel().getCharacter().getPosX()*((4*this.getWidth())/100)), (int) (game.getLevel().getCharacter().getPosY()*((4*this.getHeight())/100)), (int) ((4*this.getWidth())/100), (int) ((4*this.getHeight())/100), this);
+		g.drawImage(game.getLevel().getCharacter().getImgCharacter(), (int) ((game.getLevel().getCharacter().getPosX()*blockWidth) + widthLevelStart), (int) ((game.getLevel().getCharacter().getPosY()*blockHeight) + heightLevelStart), (int) blockWidth, (int) blockHeight, this);
 		
 		//Display boxes
 		for(int i = 0; i < game.getLevel().getNbBoxes(); i++) {
-			g.drawImage(game.getLevel().getBoxes()[i].IsInPosition() ? imgBoxInPosition : imgBox, (int) (game.getLevel().getBoxes()[i].getPosX()*((4*this.getWidth())/100)), (int) (game.getLevel().getBoxes()[i].getPosY()*((4*this.getHeight())/100)), (int) ((4*this.getWidth())/100), (int) ((4*this.getHeight())/100), this);
+			g.drawImage(game.getLevel().getBoxes()[i].IsInPosition() ? imgBoxInPosition : imgBox, (int) ((game.getLevel().getBoxes()[i].getPosX()*blockWidth) + widthLevelStart), (int) ((game.getLevel().getBoxes()[i].getPosY()*blockHeight) + heightLevelStart), (int) blockWidth, (int) blockHeight, this);
 		}
 		
 		//Display end level pop-in

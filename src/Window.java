@@ -7,7 +7,7 @@ public class Window extends JFrame {
 
 	public Window(Game game) {
 		this.setTitle("Sokoban"); //Window title
-		this.setSize(800, 800); //Window size
+		this.setSize(1016, 1039); //Window size (width wanted + 16 and height wanted + 39 because of borders)
 		this.setLocationRelativeTo(null); //Window centering
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Window and processus close when click on red cross
 		
