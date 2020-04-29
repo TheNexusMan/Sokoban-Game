@@ -1,4 +1,4 @@
-break
+next
     XXXXX             
     X   X             
     X*  X             
@@ -11,6 +11,7 @@ XXXXX XXXX X@XXXX  ..X
     X      XXX  XXXXXX
     XXXXXXXX          
 break
+next
 XXXXXXXXXXXX  
 X..  X     XXX
 X..  X *  *  X
@@ -22,6 +23,7 @@ XXXXXX XX* * X
   X    X     X
   XXXXXXXXXXXX
 break
+next
         XXXXXXXX 
         X     @X 
         X *X* XX 
@@ -33,6 +35,7 @@ XX...    *  *   X
 X....  XXXXXXXXXX
 XXXXXXXX         
 break
+next
               XXXXXXXX
               X  ....X
    XXXXXXXXXXXX  ....X
@@ -47,6 +50,7 @@ X **X** @X
 X   X   XX            
 XXXXXXXXX             
 break
+next
         XXXXX    
         X   XXXXX
         X X*XX  X
@@ -61,6 +65,7 @@ XXXXXXXXX  *  XX
           X    X 
           XXXXXX 
 break
+next
 XXXXXX  XXX 
 X..  X XX@XX
 X..  XXX   X
@@ -73,6 +78,7 @@ XXXX * X*  X
    X  XX   X
    XXXXXXXXX
 break
+next
        XXXXX 
  XXXXXXX   XX
 XX X @XX ** X
@@ -86,6 +92,7 @@ X ** X X...X
 X  XXX XXXXX 
 XXXX         
 break
+next
   XXXX          
   X  XXXXXXXXXXX
   X    *   * * X
@@ -104,6 +111,7 @@ XX  *    * * * X
   X......X      
   XXXXXXXX      
 break
+next
           XXXXXXX
           X  ...X
       XXXXX  ...X
@@ -123,6 +131,7 @@ XXXXXX ** * XXXXX
         X  X     
         XXXX     
 break
+next
               XXXX   
          XXXXXX  X   
          X       X   
@@ -144,6 +153,7 @@ XXX   X  *    X.....X
     X           X    
     XXXXXXXXXXXXX    
 break
+next
           XXXX     
      XXXX X  X     
    XXX  XXX* X     
@@ -160,6 +170,7 @@ X...X.X
 X.....X            
 XXXXXXX            
 break
+next
     XXXXXXXXX       
   XXX   XX  XXXXX   
 XXX      X  X   XXXX
@@ -174,6 +185,7 @@ XX **  *   *  *... X
  X   X    XXXXXXXXXX
  XXXXX              
 break
+next
 XXXXXXXXXXXXXXXX 
 X              X 
 X X XXXXXX     X 
@@ -188,6 +200,7 @@ XXXXX   XX XX...X
         X     X  
         XXXXXXX  
 break
+next
        XXXXXXX    
  XXXXXXX     X    
  X     X *@* X    
@@ -205,6 +218,7 @@ XXXXX     *   X X
       XXXXXXXX  X 
              XXXX 
 break
+next
       XXXXXXXXXXXX    
       X  .  XX   X    
       X X.     @ X    
@@ -219,6 +233,7 @@ XXXX*XXX*X *  X   X XX
  XXXXXXXXXXXXXXXXX  X 
                  XXXX 
 break
+next
         XXXXXX              
         X   @XXXX           
       XXXXX *   X           
@@ -240,6 +255,7 @@ XX    XX              X....X
   X  X             XXXXX  XX
   XXXX                 XXXX 
 break
+next
    XXXXXXXXXX   
    X..  X   X   
    X..      X   
@@ -255,6 +271,7 @@ XXXX XX XXXXXXX
    X    X       
    XXXXXX       
 break
+next
             XXXX      
  XXXXXXXXXXXX  XXXXX  
  X    X  X  *  X   XX 
@@ -276,6 +293,7 @@ XX X     * * * *   XXX
        X   XXXXXXXXXXX
        XXXXX          
 break
+next
        XXXXXXX           
        X  X  XXXX        
        X *X* X  XX       
@@ -291,6 +309,7 @@ XXXXXXXX  X**X*  X
        XXXX  XXXXX       
           XXXX           
 break
+next
    XXXXXXXXXX        
    X........XXXX     
    X.X.X....X  X     
@@ -311,6 +330,7 @@ XXXXX    X XX X XX XX
       XX  X  X  X    
        XXXXXXXXXX    
 break
+next
                XXXX    
           XXXXXX  XXXXX
     XXXXXXX       X   X
@@ -329,6 +349,7 @@ X XXXXXX*XXXXXX  XXXXXX
 X        X    X  X     
 XXXXXXXXXX    XXXX     
 break
+next
 XXXXXXXXX      
 X       X      
 X       XXXX   
@@ -345,6 +366,7 @@ XXXX  *** *X  X
      XX   XXXXX
       XXXXX    
 break
+next
  XXXXXXXXXXXXXXXXX     
  X...   X    X   XXX   
 XX.....  *XX X X * X   
@@ -359,6 +381,7 @@ XXXXXXXXX *  * X X  XXX
  XXXXXXX  @ XX      XXX
        XXXXXX          
 break
+next
      XXXXXXX   
      X@ X  X   
      X *   X   
@@ -377,6 +400,7 @@ XXX .X....XXXXX
   X....   ..X  
   XXXXXXXXXXX  
 break
+next
                 XXXXX   
        XXXXXX XXX   XXXX
    XXXXX    XXX * *  * X
@@ -389,6 +413,7 @@ X..XXXXXX  *  X  XXXX XX
 XXXX    X   XXX    @  X 
         XXXXXXXXXXXXXXX 
 break
+next
  XXXXX        
  X   XXXXXXX  
  X * XXX   X  
@@ -410,6 +435,7 @@ X.....*   X  X
 XX  XXXXXXXXXX
  XXXX         
 break
+next
  XXXXXXX       
  X  X  XXXXX   
 XX  X  X...XXX 
@@ -423,6 +449,7 @@ XX  X  ** X   X
       X      XX
       XXXXXXXX 
 break
+next
   XXXX            
   X  XXXXXXXXX    
  XX  XX @X   X    
@@ -440,6 +467,7 @@ XX  XXX  XXX* X
    X...X          
    XXXXX          
 break
+next
       XXXX   
   XXXXX  X   
  XX     *X   
@@ -456,6 +484,7 @@ XXXX XX   *X
       X  X   
       XXXX   
 break
+next
 XXXXXXXXXXXX
 XX     XX  X
 XX   *   * X
@@ -472,6 +501,7 @@ XX....X  * X
 XXX..XX    X
 XXXXXXXXXXXX
 break
+next
 XXXXXXXXXXXX  XXXXXX
 X   X    X@XXXX....X
 X   **X       .....X
@@ -489,6 +519,7 @@ XX XX XXX *  X
  X    X X    X      
  XXXXXX XXXXXX      
 break
+next
      XXXX         
    XXX  XX        
 XXXX  *  X        
@@ -509,6 +540,7 @@ XX*X* XXXX*XXXX..X
  X   X XXXXXX     
  XXXXX            
 break
+next
 XXXXXXXXXXX          
 X......   XXXXXXXXX  
 X......   X  XX   X  
@@ -525,6 +557,7 @@ XXX    X   X*  X *XXX
     XXXXX@XXXXX      
         XXX          
 break
+next
  XXXXXXXXX    
  X....   XX   
  X.X.X  * XX  
@@ -541,6 +574,7 @@ XX XXX  *    X
    X  XXXXX   
    XXXX       
 break
+next
               XXX      
              XX.XXX    
              X....X    
@@ -560,6 +594,7 @@ X    X  ** X
 XXXXXX   XXX           
      XXXXX             
 break
+next
       XXXX 
 XXXXXXX @X 
 X     *  X 
@@ -572,6 +607,7 @@ XX*X...X X
  X  XXXXXXX
  XXXX      
 break
+next
            XXXXX    
           XX   XX   
          XX     X   
@@ -588,6 +624,7 @@ XXXXXXXXXXXXXX  *  X
              XX  XXX
               XXXX  
 break
+next
  XXXXXXXX    
  X@XX   XXXX 
  X *   *   X 
@@ -607,6 +644,7 @@ XX X....X**X
     X    X   
     XXXXXX   
 break
+next
     XXXXXXXXXXXX 
     X          XX
     X  X X** *  X
@@ -624,6 +662,7 @@ X....   X
 X....   X        
 XXXXXXXXX        
 break
+next
       XXXXXX             
    XXXXX   X             
    X   X X XXXXX         
@@ -644,6 +683,7 @@ XX XXX      XXXX X*X X  X
              XX  XXX  XX 
               XXXXXXXXX  
 break
+next
         XXXXXXX    
     XXXXX  X  XXXX 
     X   X   *    X 
@@ -656,6 +696,7 @@ X...X  XXX  *  *  X
 XXXXXXXX XX   X   X
           XXXXXXXXX
 break
+next
     XXXXXXXXX  XXXX   
     X   XX  XXXX  X   
     X   *   X  *  X   
@@ -674,6 +715,7 @@ XXXXXX X  X*   XXX...X
  XXXXX  X   X         
      XXXXXXXX         
 break
+next
  XXXXX             
  X   X             
  X X XXXXXX        
@@ -690,6 +732,7 @@ XXXXXX  XXX  ...  X
           X       X
           XXXXXXXXX
 break
+next
      XXXXXXXXXXXXX   
      X    XXX    X   
      X     * *  XXXX 
@@ -707,6 +750,7 @@ XXXXX  X  XX  X *X  X
   X.......XXXXXXX  XX
   XXXXXXXXX     XXXX 
 break
+next
 XXXXX XXXX      
 X...X X  XXXX   
 X...XXX  *  X   
@@ -722,6 +766,7 @@ X  XXXXXX  XXX
 X XX    XXXX    
 XXX             
 break
+next
  XXXXXXXXXXXXXXXXXXXXX 
  X   XX  X   X   X   X 
  X *     *   *   *   XX
@@ -743,6 +788,7 @@ X  * ** XXXX *  * X X X
 X          X   X      X
 XXXXXXXXXXXXXXXXXXXXXXX
 break
+next
  XXXXXXXXXXXXXXXXXXXXX
 XX                   X
 X    * X      XX X   X
@@ -759,6 +805,7 @@ XX     X *  * XX   X
  XXXXX   X   XXXXXXX  
      XXXXXXXXX        
 break
+next
 XXXXXXXXXX    
 X        XXXX 
 X XXXXXX X  XX
@@ -776,6 +823,7 @@ XXX*  **X  XXX
   X.......X   
   XXXXXXXXX   
 break
+next
          XXXX     
  XXXXXXXXX  XX    
 XX  *      * XXXXX
@@ -787,3 +835,4 @@ X *  **  * XX....X
 XXX*       XXXXXXX
   X  XXXXXXX      
   XXXX            
+break

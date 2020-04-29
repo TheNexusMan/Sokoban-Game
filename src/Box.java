@@ -1,7 +1,7 @@
 
 //Box class store a box position and it's in a box's place
 public class Box extends MovableElem {
-	private Boolean isInPosition;
+	private boolean isInPosition;
 	
 	Box(int i, int j, boolean isInPosition){
 		setPosX(j);

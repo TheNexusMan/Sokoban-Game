@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>6</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>552</x>
+      <y>108</y>
+      <w>192</w>
+      <h>246</h>
+    </coordinates>
+    <panel_attributes>::Game
+--
++nbLevel = 49: int
++window: Window
+-levels[] = new Level[nbLevel]: Level
+-currentLevelNum: int
+-nbMoves = 0: int
++gameOn = true: boolean
++levelEnded = false: boolean
+--
+~Game(): ctor
+-initGame(int levelNum): void
+-loadAllLevels(): void
++getNbMoves(): int
++setNbMoves(int nbMoves): void
++increaseNbMoves(): void
++getLevel(): Level
++getCurrentLevelNum(): int
++setCurrentLevelNum(int currentLevelNum): void
++restartLevel(): void
++move(String direction): boolean
++endLevel(): void
++nextLevel(): void
++saveGame(): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>318</x>
+      <y>438</y>
+      <w>186</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>::Level
+--
++tabSize = 30: int
++boxTabSize = 40: int
+-tabLevel[][] = new char[tabSize][tabSize]: char
+-character: Character
+-nbBoxes = 0: int
+-boxes[] = new Box[boxTabSize]: Box
+--
++createCharacter(int i, int j): void
++getCharacter(): Character
++getNbBoxes(): int
++getBoxes(): Box[]
++addABox(int i, int j): void
++setLevelCaseIJ(char c, int i, int j): void
++getLevelCaseIJ(int i, int j): char
++setLevelCaseXY(char c, int X, int Y): void
++getLevelCaseXY(int X, int Y): char
++isThereABoxInXY(int X, int Y): boolean
++getBoxAtXY(int X, int Y): Box
++allBoxesInPosition(): boolean
++resetLevel(): void
++showTable(): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>612</x>
+      <y>480</y>
+      <w>126</w>
+      <h>156</h>
+    </coordinates>
+    <panel_attributes>/::MovableElem/
+--
+-posX, posY: int
+-initPosX, initPosY: int
+--
++setPosX(int x): void
++getPosX(): int
++setPosY(int y): void
++getPosY(): int
++getInitPosX(): int
++setInitPosX(int initPosX): void
++getInitPosY(): int
++setInitPosY(int initPosY): void
++moveToInitialPos(): void
++move(String direction): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>330</x>
+      <y>198</y>
+      <w>144</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>::Panel
+--
+-serialVersionUID = 1L: long
++game: Game
+--
+~Panel(Game game): ctor
+~Panel(): ctor
++paintComponent(Graphics g): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>330</x>
+      <y>306</y>
+      <w>150</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>::SokoKeyListener
+--
++panel: Panel
+--
+~SokoKeyListener(Panel panel): ctor
++keyTyped(KeyEvent e): void
++keyPressed(KeyEvent e): void
++keyReleased(KeyEvent e): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>342</x>
+      <y>102</y>
+      <w>114</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>::Window
+--
+-serialVersionUID = 1L: long
+--
++Window(Game game): ctor
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>780</x>
+      <y>198</y>
+      <w>108</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>::Sokoban
+--
+--
++main(String[] args): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>474</x>
+      <y>756</y>
+      <w>168</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>::Box
+--
+-isInPosition: Boolean
+--
+~Box(int i, int j, boolean isInPosition): ctor
++setIsInPosition(Boolean position): void
++IsInPosition(): Boolean
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>738</x>
+      <y>756</y>
+      <w>180</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>::Character
+--
+-imgCharacter = null: Image
+--
+~Character(int i, int j): ctor
++getImgCharacter(): Image
++setImgCharacter(Image imgCharacter): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>660</x>
+      <y>630</y>
+      <w>174</w>
+      <h>138</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0;270.0;120.0;270.0;210.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>546</x>
+      <y>630</y>
+      <w>132</w>
+      <h>138</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>200.0;10.0;200.0;120.0;10.0;120.0;10.0;210.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>408</x>
+      <y>672</y>
+      <w>78</w>
+      <h>132</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>110.0;200.0;10.0;200.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>408</x>
+      <y>672</y>
+      <w>432</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>700.0;260.0;700.0;330.0;10.0;330.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>450</x>
+      <y>120</y>
+      <w>114</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;170.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>390</x>
+      <y>150</y>
+      <w>18</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>396</x>
+      <y>276</y>
+      <w>18</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>738</x>
+      <y>216</y>
+      <w>54</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>468</x>
+      <y>228</y>
+      <w>96</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>140.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>276</y>
+      <w>18</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>396</x>
+      <y>348</y>
+      <w>264</w>
+      <h>102</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;150.0;10.0;120.0;420.0;120.0;420.0;10.0</additional_attributes>
+  </element>
+</diagram>

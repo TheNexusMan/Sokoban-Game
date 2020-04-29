@@ -3,11 +3,29 @@
 public class Level {
 	public static int tabSize = 30;
 	public static int boxTabSize = 40;
+	private int levelWidth;
+	private int levelHeight;
 	private char tabLevel[][] = new char[tabSize][tabSize]; //Where the level is loaded
 	private Character character;
 	private int nbBoxes = 0;
 	private Box boxes [] = new Box [boxTabSize];
 	
+	public int getLevelWidth() {
+		return levelWidth;
+	}
+
+	public void setLevelWidth(int levelWidth) {
+		this.levelWidth = levelWidth;
+	}
+
+	public int getLevelHeight() {
+		return levelHeight;
+	}
+
+	public void setLevelHeight(int levelHeight) {
+		this.levelHeight = levelHeight;
+	}
+
 	public void createCharacter(int i, int j) {
 		character = new Character(i, j);
 	}
