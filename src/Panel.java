@@ -14,7 +14,8 @@ public class Panel extends JPanel {
 	
 	//We need to pass the game to panel to access it
 	public Game game;
-	private Font font = new Font(Font.SANS_SERIF, Font.BOLD, 18);
+	private Font fontGeneral = new Font(Font.SANS_SERIF, Font.BOLD, 18);
+	private Font fontTitle = new Font(Font.SANS_SERIF, Font.BOLD, 30);
 	private Image imgWall = null;
 	private Image imgPosition = null;
 	private Image imgBox = null;
@@ -24,7 +25,7 @@ public class Panel extends JPanel {
 		super();
 		this.game = game;
 		
-		//Set game font and background
+		//Set game background
 		this.setBackground(Color.LIGHT_GRAY); 
 		
 		//Loading textures
@@ -41,13 +42,13 @@ public class Panel extends JPanel {
 	//paintComponent procedure display the different elements on the panel
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.setFont(font);
+		g.setFont(fontGeneral);
 		
 		double blockSize = 3; //Block size in window percentage
 		double blockWidth = (blockSize*this.getWidth())/100; //Block width in pixel
 		double blockHeight = (blockSize*this.getHeight())/100; //Block height in pixel
 		int widthLevelStart = (int) ((this.getWidth() - (game.getLevel().getLevelWidth()*blockWidth))/2); //The width were we begin to display the level at the center
-		int heightLevelStart = 60; //The height were we begin to display the level
+		int heightLevelStart = 150; //The height were we begin to display the level
 		
 		//Display walls and boxes goal positions
 		for(int i = 0; i < Level.tabSize; i++) {
@@ -76,6 +77,16 @@ public class Panel extends JPanel {
 		for(int i = 0; i < game.getLevel().getNbBoxes(); i++) {
 			g.drawImage(game.getLevel().getBoxes()[i].IsInPosition() ? imgBoxInPosition : imgBox, (int) ((game.getLevel().getBoxes()[i].getPosX()*blockWidth) + widthLevelStart), (int) ((game.getLevel().getBoxes()[i].getPosY()*blockHeight) + heightLevelStart), (int) blockWidth, (int) blockHeight, this);
 		}
+		
+		//Display level number
+		g.setFont(fontTitle);
+		g.setColor(Color.red);          
+	    g.drawString("Niveau " + ((game.getCurrentLevelNum()+1) < 10 ? "0" : "") + (game.getCurrentLevelNum()+1), (this.getWidth()/2)-80, 40);
+		
+		//Display score
+	    g.setFont(fontGeneral);
+		g.setColor(Color.black);          
+	    g.drawString("Score : " + game.getNbMoves(), (this.getWidth()/2)-50, 70);
 		
 		//Display end level pop-in
 		if(game.levelEnded) {
