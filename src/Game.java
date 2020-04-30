@@ -5,32 +5,39 @@ import java.util.Scanner;
 //Game is the main class
 public class Game {
 	public static int nbLevel = 49;
+	public static int nbMaxPlayer = 10;
 	public Window window;
+	public Menu menu = new Menu(this);
 	private Level levels [] = new Level[nbLevel];
-	private int currentLevelNum;
+	private Player players [] = new Player[nbMaxPlayer];
+	private int nbPlayer = 0;
+	private int currentLevelNum = -1;
+	private int currentPlayer = -1;
 	private int nbMoves = 0; //Score (lower is best)
-	public boolean gameOn = true;
+	public boolean inMenu = true;
+	public boolean gameOn = false;
 	public boolean levelEnded = false;
 	
 	Game() {
 		setCurrentLevelNum(0);
 		loadAllLevels();
-		initGame(currentLevelNum);
+		loadAllPlayers();
 		window = new Window(this);
 	}
 	
 	//Game and level initialization
-	private void initGame(int levelNum) {
+	public void initGame(int levelNum) {
 		setNbMoves(0);
 		setCurrentLevelNum(levelNum);
+		getLevel().resetLevel();
 		gameOn = true;
 		levelEnded = false;
 	}
 	
 	//Load all levels from txt file
 	private void loadAllLevels() {
-		//File file = new File("data\\levels\\levels.txt");
-		File file = new File("data\\levels\\levels-easy.txt"); //For development only
+		File file = new File("data\\levels\\levels.txt");
+		//File file = new File("data\\levels\\levels-easy.txt"); //For development only
 		//File file = new File("data\\levels\\levels-fullwall.txt"); //For development only
 		Scanner sc = null;
 		try {
@@ -76,6 +83,23 @@ public class Game {
 		sc.close();
 	}
 	
+	public void loadAllPlayers() {
+		int tab1 [] = {105, 199, 70};
+		players[0] = new Player("Arnaud", tab1, 3);
+		increaseNbPlayer();
+		
+		players[1] = new Player("Pierre");
+		increaseNbPlayer();
+		
+		int tab2 [] = {135, 141};
+		players[2] = new Player("Claire", tab2, 2);
+		increaseNbPlayer();
+		
+		int tab3 [] = {78, 250, 68, 89};
+		players[3] = new Player("Morgane", tab3, 4);
+		increaseNbPlayer();
+	}
+	
 	public int getNbMoves() {
 		return nbMoves;
 	}
@@ -92,12 +116,48 @@ public class Game {
 		return levels[currentLevelNum];
 	}
 	
+	public Level getLevel(int i) {
+		return levels[i];
+	}
+	
+	public Player getPlayer() {
+		return players[currentPlayer];
+	}
+	
+	public Player getPlayer(int i) {
+		return players[i];
+	}
+	
+	public int getNbPlayer() {
+		return nbPlayer;
+	}
+
+	public void setNbPlayer(int nbPlayer) {
+		this.nbPlayer = nbPlayer;
+	}
+	
+	public void increaseNbPlayer() {
+		nbPlayer++;
+	}
+	
+	public void decreaseNbPlayer() {
+		nbPlayer--;
+	}
+
 	public int getCurrentLevelNum() {
 		return currentLevelNum;
 	}
 
 	public void setCurrentLevelNum(int currentLevelNum) {
 		this.currentLevelNum = currentLevelNum;
+	}
+	
+	public int getCurrentPlayer() {
+		return currentPlayer;
+	}
+
+	public void setCurrentPlayer(int currentPlayer) {
+		this.currentPlayer = currentPlayer;
 	}
 	
 	public void restartLevel() {

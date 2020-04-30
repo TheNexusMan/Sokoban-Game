@@ -4,14 +4,16 @@ import javax.swing.JFrame;
 public class Window extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-
-	public Window(Game game) {
+	public Panel panel;
+	
+	
+	Window(Game game) {
 		this.setTitle("Sokoban"); //Window title
 		this.setSize(1016, 1039); //Window size (width wanted + 16 and height wanted + 39 because of borders)
 		this.setLocationRelativeTo(null); //Window centering
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Window and processus close when click on red cross
 		
-		Panel panel = new Panel(game);
+		panel = new Panel(game);
 		this.setContentPane(panel);
 		panel.addKeyListener(new SokoKeyListener(panel));
 		panel.setFocusable(true);

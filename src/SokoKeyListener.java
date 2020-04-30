@@ -36,9 +36,21 @@ public class SokoKeyListener implements KeyListener {
 				case KeyEvent.VK_DOWN:
 					if(panel.game.move("down")) panel.repaint();
 					break;
-				
+			}
+		}
+		
+		if(!panel.game.inMenu) {
+			switch(e.getKeyCode()) {
 				case KeyEvent.VK_R:
 					panel.game.restartLevel();
+					panel.repaint();
+					break;
+					
+				case KeyEvent.VK_ESCAPE :
+					panel.game.getLevel().resetLevel();
+					panel.game.inMenu = true;
+					panel.game.gameOn = false;
+					panel.game.menu.setMenuOn(1);
 					panel.repaint();
 					break;
 			}
@@ -51,9 +63,34 @@ public class SokoKeyListener implements KeyListener {
 					panel.game.nextLevel();
 					panel.repaint();
 					break;
+			}
+		}
+		
+		//Keys for the menu
+		if(panel.game.inMenu) {
+			switch(e.getKeyCode()) {
+				case KeyEvent.VK_UP:
+					panel.game.menu.menuChoice("up");
+					panel.repaint();
+					break;
 				
-				case KeyEvent.VK_R:
-					panel.game.restartLevel();
+				case KeyEvent.VK_DOWN:
+					panel.game.menu.menuChoice("down");
+					panel.repaint();
+					break;
+				
+				case KeyEvent.VK_LEFT:
+					panel.game.menu.menuChoice("left");
+					panel.repaint();
+					break;
+				
+				case KeyEvent.VK_RIGHT:
+					panel.game.menu.menuChoice("right");
+					panel.repaint();
+					break;
+				
+				case KeyEvent.VK_ENTER:
+					panel.game.menu.select();
 					panel.repaint();
 					break;
 			}
