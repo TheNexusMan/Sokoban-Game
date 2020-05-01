@@ -26,6 +26,7 @@ public class Panel extends JPanel {
 	private Image imgBox = null;
 	private Image imgBoxInPosition = null;
 	private Image imgLevelIcon [] = new Image [Game.nbLevel];
+	private Image imgLock = null;
 	
 	Panel(Game game){
 		super();
@@ -41,6 +42,7 @@ public class Panel extends JPanel {
 		    imgPosition = ImageIO.read(new File("data\\texture\\position.png"));
 		    imgBox = ImageIO.read(new File("data\\texture\\box.jpg"));
 		    imgBoxInPosition = ImageIO.read(new File("data\\texture\\boxInPosition.jpg"));
+		    imgLock = ImageIO.read(new File("data\\level-icons\\lock.jpg"));
 		    
 		    for(int i = 0; i < Game.nbLevel; i++) {
 		    	imgLevelIcon[i] = ImageIO.read(new File("data\\level-icons\\level-" + (i+1) + ".png"));
@@ -57,10 +59,8 @@ public class Panel extends JPanel {
 		g.setFont(fontGeneral);
 		
 		if(!game.inMenu) { //We display the game if we're not int the menu
-			double blockSize = 3; //Block size in window percentage
-			double blockWidth = (blockSize*this.getWidth())/100; //Block width in pixel
-			double blockHeight = (blockSize*this.getHeight())/100; //Block height in pixel
-			int widthLevelStart = (int) ((this.getWidth() - (game.getLevel().getLevelWidth()*blockWidth))/2); //The width were we begin to display the level at the center
+			double blockSize = 30; //Block size in window percentage
+			int widthLevelStart = (int) ((this.getWidth() - (game.getLevel().getLevelWidth()*blockSize))/2); //The width were we begin to display the level at the center
 			int heightLevelStart = 150; //The height were we begin to display the level
 			
 			//Display walls and boxes goal positions
@@ -69,11 +69,11 @@ public class Panel extends JPanel {
 					
 					switch (game.getLevel().getLevelCaseIJ(i, j)) {
 					case 'X':
-						g.drawImage(imgWall, (int) ((j*blockWidth) + widthLevelStart), (int) ((i*blockHeight) + heightLevelStart), (int) blockWidth, (int) blockHeight, this);
+						g.drawImage(imgWall, (int) ((j*blockSize) + widthLevelStart), (int) ((i*blockSize) + heightLevelStart), (int) blockSize, (int) blockSize, this);
 						break;
 					
 					case '.':
-						g.drawImage(imgPosition, (int) ((j*blockWidth) + widthLevelStart), (int) ((i*blockHeight) + heightLevelStart), (int) blockWidth, (int) blockHeight, this);
+						g.drawImage(imgPosition, (int) ((j*blockSize) + widthLevelStart), (int) ((i*blockSize) + heightLevelStart), (int) blockSize, (int) blockSize, this);
 						break;
 						
 					default:
@@ -84,11 +84,11 @@ public class Panel extends JPanel {
 			}
 			
 			//Display character
-			g.drawImage(game.getLevel().getCharacter().getImgCharacter(), (int) ((game.getLevel().getCharacter().getPosX()*blockWidth) + widthLevelStart), (int) ((game.getLevel().getCharacter().getPosY()*blockHeight) + heightLevelStart), (int) blockWidth, (int) blockHeight, this);
+			g.drawImage(game.getLevel().getCharacter().getImgCharacter(), (int) ((game.getLevel().getCharacter().getPosX()*blockSize) + widthLevelStart), (int) ((game.getLevel().getCharacter().getPosY()*blockSize) + heightLevelStart), (int) blockSize, (int) blockSize, this);
 			
 			//Display boxes
 			for(int i = 0; i < game.getLevel().getNbBoxes(); i++) {
-				g.drawImage(game.getLevel().getBoxes()[i].IsInPosition() ? imgBoxInPosition : imgBox, (int) ((game.getLevel().getBoxes()[i].getPosX()*blockWidth) + widthLevelStart), (int) ((game.getLevel().getBoxes()[i].getPosY()*blockHeight) + heightLevelStart), (int) blockWidth, (int) blockHeight, this);
+				g.drawImage(game.getLevel().getBoxes()[i].IsInPosition() ? imgBoxInPosition : imgBox, (int) ((game.getLevel().getBoxes()[i].getPosX()*blockSize) + widthLevelStart), (int) ((game.getLevel().getBoxes()[i].getPosY()*blockSize) + heightLevelStart), (int) blockSize, (int) blockSize, this);
 			}
 			
 			//Display level number
@@ -96,10 +96,18 @@ public class Panel extends JPanel {
 			g.setColor(Color.red);
 		    g.drawString("Niveau " + ((game.getCurrentLevelNum()+1) < 10 ? "0" : "") + (game.getCurrentLevelNum()+1), (this.getWidth()/2)-80, 40);
 			
-			//Display score
+			
+		    
+		    //Display player best score
 		    g.setFont(fontGeneral);
 			g.setColor(Color.black);
-		    g.drawString("Score : " + game.getNbMoves(), (this.getWidth()/2)-50, 70);
+		    g.drawString("Votre meilleur score : " + (game.getPlayer().getLevelScore(game.getCurrentLevelNum()) != -1 ? game.getPlayer().getLevelScore(game.getCurrentLevelNum()) : "Aucun"), (this.getWidth()/2)-250, 80);
+		    
+		    //Display level best score
+		    g.drawString("Meilleur score : " + (game.getBestScore(game.getCurrentLevelNum()) != -1 ? game.getBestScore(game.getCurrentLevelNum()) : "Aucun"), (this.getWidth()/2)+30, 80);
+		    
+		    //Display actual player score
+		    g.drawString("Score : " + game.getNbMoves(), (this.getWidth()/2)-50, 110);
 			
 			//Display end level pop-in
 			if(game.levelEnded) {
@@ -118,24 +126,24 @@ public class Panel extends JPanel {
 					
 					g.setFont(fontTitle);
 					
-					if(game.getCurrentPlayer() != -1) {
+					if(game.getCurrentPlayerNum() != -1) {
 						g.setColor(Color.DARK_GRAY);
 					    g.drawString("Joueur : " + game.getPlayer().getPseudo(), (this.getWidth()/2)-100, 320);
 						
-						if(game.menu.getVerticalMenuChoice() == 1) g.setColor(Color.red);
+						if(game.menu.getYMenuChoice() == 1) g.setColor(Color.red);
 						else g.setColor(Color.black);
 					    g.drawString("Reprendre", (this.getWidth()/2)-100, 400);
 					    
-					    if(game.menu.getVerticalMenuChoice() == 2) g.setColor(Color.red);
+					    if(game.menu.getYMenuChoice() == 2) g.setColor(Color.red);
 					    else g.setColor(Color.black);
 					    g.drawString("Choix du niveau", (this.getWidth()/2)-100, 450);
 					}
 				    
-				    if(game.menu.getVerticalMenuChoice() == 3) g.setColor(Color.red);
+				    if(game.menu.getYMenuChoice() == 3) g.setColor(Color.red);
 				    else g.setColor(Color.black);
 				    g.drawString("Charger joueur", (this.getWidth()/2)-100, 500);
 				    
-				    if(game.menu.getVerticalMenuChoice() == 4) g.setColor(Color.red);
+				    if(game.menu.getYMenuChoice() == 4) g.setColor(Color.red);
 				    else g.setColor(Color.black);
 				    g.drawString("Quitter", (this.getWidth()/2)-100, 550);
 					break;
@@ -156,16 +164,27 @@ public class Panel extends JPanel {
 					//We draw the level mosaic
 					for(int i = 0; i < 7; i++) {
 						for(int j = 0; j < 7; j++) {
-							g.drawImage(imgLevelIcon[levelCounter], mosaicWidthStart + (gap+iconSize)*j, mosaicHeightStart + (gap+iconSize)*i, iconSize, iconSize, this);
+							if(game.getPlayer().getNextLevelToPass() < levelCounter) g.drawImage(imgLock, mosaicWidthStart + (gap+iconSize)*j, mosaicHeightStart + (gap+iconSize)*i, iconSize, iconSize, this);
+							else g.drawImage(imgLevelIcon[levelCounter], mosaicWidthStart + (gap+iconSize)*j, mosaicHeightStart + (gap+iconSize)*i, iconSize, iconSize, this);
 							
-							if(game.menu.getHorizontalMenuChoice() == j+1 && game.menu.getVerticalMenuChoice() == i+1) g.setColor(Color.red);
+							if(game.menu.getXMenuChoice() == j+1 && game.menu.getYMenuChoice() == i+1) g.setColor(Color.red);
 							else g.setColor(Color.black);
 							g.drawRect(mosaicWidthStart + (gap+iconSize)*j, mosaicHeightStart + (gap+iconSize)*i, iconSize, iconSize);
 							levelCounter++;
 						}
 					}
 					
-					g2.setStroke(oldStroke);
+					//Display player best score
+				    g.setFont(fontGeneral);
+					g.setColor(Color.black);
+					int numLevel = (game.menu.getYMenuChoice()*7-(7-game.menu.getXMenuChoice()))-1;
+					g.drawString("Niveau " + ((numLevel+1) < 10 ? "0" : "") + (numLevel+1), (this.getWidth()/2)-80, 40);
+					
+					//Display level best score
+				    g.drawString("Meilleur score : " + (game.getBestScore(numLevel) != -1 ? game.getBestScore(numLevel) : "Aucun"), (this.getWidth()/2)+30, 80);
+				    
+				    //Display player best score
+				    g.drawString("Votre meilleur score : " + (game.getPlayer().getLevelScore(numLevel) != -1 ? game.getPlayer().getLevelScore(numLevel) : "Aucun"), (this.getWidth()/2)-250, 80);
 					break;
 				
 				case 3: //Draw load player menu
@@ -176,11 +195,11 @@ public class Panel extends JPanel {
 					g.setFont(fontTitle);
 					
 					for(int i = 0; i < game.getNbPlayer(); i++) {
-						if(game.menu.getVerticalMenuChoice() == i+1) g.setColor(Color.red);
+						if(game.menu.getYMenuChoice() == i+1) g.setColor(Color.red);
 						else g.setColor(Color.black);
 						g.drawString(game.getPlayer(i).getPseudo(), (this.getWidth()/2)-100, 250+(i*50));
 					}
-					if(game.menu.getVerticalMenuChoice() == game.getNbPlayer()+1) g.setColor(Color.red);
+					if(game.menu.getYMenuChoice() == game.getNbPlayer()+1) g.setColor(Color.red);
 					else g.setColor(Color.black);
 					g.drawString("Ajouter joueur", (this.getWidth()/2)-100, 250+(game.getNbPlayer()*50));
 					break;

@@ -12,7 +12,7 @@ public class Game {
 	private Player players [] = new Player[nbMaxPlayer];
 	private int nbPlayer = 0;
 	private int currentLevelNum = -1;
-	private int currentPlayer = -1;
+	private int currentPlayerNum = -1;
 	private int nbMoves = 0; //Score (lower is best)
 	public boolean inMenu = true;
 	public boolean gameOn = false;
@@ -84,7 +84,7 @@ public class Game {
 	}
 	
 	public void loadAllPlayers() {
-		int tab1 [] = {105, 199, 70};
+		int tab1 [] = {150, 199, 70};
 		players[0] = new Player("Arnaud", tab1, 3);
 		increaseNbPlayer();
 		
@@ -97,6 +97,10 @@ public class Game {
 		
 		int tab3 [] = {78, 250, 68, 89};
 		players[3] = new Player("Morgane", tab3, 4);
+		increaseNbPlayer();
+		
+		int tab4 [] = {256, 232, 98, 121, 560, 785};
+		players[4] = new Player("Louis", tab4, 6);
 		increaseNbPlayer();
 	}
 	
@@ -121,7 +125,7 @@ public class Game {
 	}
 	
 	public Player getPlayer() {
-		return players[currentPlayer];
+		return players[currentPlayerNum];
 	}
 	
 	public Player getPlayer(int i) {
@@ -152,12 +156,12 @@ public class Game {
 		this.currentLevelNum = currentLevelNum;
 	}
 	
-	public int getCurrentPlayer() {
-		return currentPlayer;
+	public int getCurrentPlayerNum() {
+		return currentPlayerNum;
 	}
 
-	public void setCurrentPlayer(int currentPlayer) {
-		this.currentPlayer = currentPlayer;
+	public void setCurrentPlayerNum(int currentPlayerNum) {
+		this.currentPlayerNum = currentPlayerNum;
 	}
 	
 	public void restartLevel() {
@@ -231,5 +235,18 @@ public class Game {
 	//Function to save current level informations
 	public void saveGame() {
 		System.out.println("Save function to do.");
+	}
+	
+	public int getBestScore( int levelNum) {
+		int bestScore = -1;
+		int playerScore;
+		
+		for(int i = 0; i < nbPlayer; i++) {
+			playerScore = players[i].getLevelScore(levelNum);
+			if(playerScore != -1 && bestScore == -1) bestScore = playerScore;
+			if(playerScore != -1 && playerScore < bestScore) bestScore = playerScore;
+		}
+		
+		return bestScore;
 	}
 }

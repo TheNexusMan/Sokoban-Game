@@ -11,10 +11,12 @@ public class Player {
 	Player(String pseudo) {
 		this.pseudo = pseudo;
 		this.nextLevelToPass = 0;
+		allScoreToMinusOne();
 	}
 	
 	Player(String pseudo, int [] scoreTab, int nextLevelToPass) {
 		this.pseudo = pseudo;
+		allScoreToMinusOne();
 		
 		for(int i = 0; i < scoreTab.length; i++) {
 			scores[i] = scoreTab[i];
@@ -45,6 +47,12 @@ public class Player {
 
 	public void setNextLevelToPass(int nextLevelToPass) {
 		this.nextLevelToPass = nextLevelToPass;
+	}
+	
+	private void allScoreToMinusOne() {
+		for(int i = 0; i < Game.nbLevel; i++) {
+			scores[i] = -1;
+		}
 	}
 	
 }
