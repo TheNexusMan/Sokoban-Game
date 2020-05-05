@@ -36,6 +36,7 @@ public class Menu {
 		this.menuOn = menuOn;
 	}
 	
+	//Function to navigate in the menus with keyboard's arrows
 	public void menuChoice(String direction) {
 		int minXChoice = 0;
 		int maxXChoice = 0;
@@ -51,11 +52,11 @@ public class Menu {
 			
 			case 2: //Load level menu : player can only go to levels he has already unlocked
 				minXChoice = 1;
-				if(YMenuChoice == (game.getPlayer().getNextLevelToPass()+1)/7+1 && (game.getPlayer().getNextLevelToPass()+1)%7 != 0) maxXChoice = (game.getPlayer().getNextLevelToPass()+1)%7;
+				if(YMenuChoice == (game.getCurrentPlayer().getNextLevelToPass()+1)/7+1 && (game.getCurrentPlayer().getNextLevelToPass()+1)%7 != 0) maxXChoice = (game.getCurrentPlayer().getNextLevelToPass()+1)%7;
 				else maxXChoice = 7;
 				
 				minYChoice = 1;
-				maxYChoice = (game.getPlayer().getNextLevelToPass()+1)/7+1;
+				maxYChoice = (game.getCurrentPlayer().getNextLevelToPass()+1)/7+1;
 				break;
 				
 			case 3:
@@ -94,7 +95,7 @@ public class Menu {
 				switch (YMenuChoice) {
 					case 1 :
 						game.inMenu = false;
-						game.initGame(game.getPlayer().getNextLevelToPass());
+						game.initGame(game.getCurrentPlayer().getNextLevelToPass());
 						break;
 						
 					case 2 :
@@ -129,6 +130,15 @@ public class Menu {
 					menuOn = 1;
 				}
 				break;
+		}
+	}
+	
+	public void goBack() {
+		System.out.println(menuOn);
+		if(menuOn > 1) {
+			menuOn = 1;
+			XMenuChoice = 1;
+			YMenuChoice = game.getCurrentPlayerNum() == -1 ? 3 : 1;
 		}
 	}
 }

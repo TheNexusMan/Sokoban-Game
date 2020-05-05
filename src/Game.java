@@ -9,7 +9,7 @@ public class Game {
 	public Window window;
 	public Menu menu = new Menu(this);
 	private Level levels [] = new Level[nbLevel];
-	private Player players [] = new Player[nbMaxPlayer];
+	private Player players [];
 	private int nbPlayer = 0;
 	private int currentLevelNum = -1;
 	private int currentPlayerNum = -1;
@@ -36,8 +36,8 @@ public class Game {
 	
 	//Load all levels from txt file
 	private void loadAllLevels() {
-		File file = new File("data\\levels\\levels.txt");
-		//File file = new File("data\\levels\\levels-easy.txt"); //For development only
+		//File file = new File("data\\levels\\levels.txt");
+		File file = new File("data\\levels\\levels-easy.txt"); //For development only
 		//File file = new File("data\\levels\\levels-fullwall.txt"); //For development only
 		Scanner sc = null;
 		try {
@@ -84,24 +84,7 @@ public class Game {
 	}
 	
 	public void loadAllPlayers() {
-		int tab1 [] = {150, 199, 70};
-		players[0] = new Player("Arnaud", tab1, 3);
-		increaseNbPlayer();
-		
-		players[1] = new Player("Pierre");
-		increaseNbPlayer();
-		
-		int tab2 [] = {135, 141};
-		players[2] = new Player("Claire", tab2, 2);
-		increaseNbPlayer();
-		
-		int tab3 [] = {78, 250, 68, 89};
-		players[3] = new Player("Morgane", tab3, 4);
-		increaseNbPlayer();
-		
-		int tab4 [] = {256, 232, 98, 121, 560, 785};
-		players[4] = new Player("Louis", tab4, 6);
-		increaseNbPlayer();
+		JSONSimple.loadPlayers(this);
 	}
 	
 	public int getNbMoves() {
@@ -124,7 +107,15 @@ public class Game {
 		return levels[i];
 	}
 	
-	public Player getPlayer() {
+	public Player[] getPlayers() {
+		return players;
+	}
+	
+	public void setPlayers(Player [] players) {
+		this.players = players;
+	}
+	
+	public Player getCurrentPlayer() {
 		return players[currentPlayerNum];
 	}
 	
@@ -207,10 +198,10 @@ public class Game {
 		if(levels[currentLevelNum].isThereABoxInXY(casePosX, casePosY)) { //If we pass the previous tests and the character is in front of a box , we can move the box
 			if(levels[currentLevelNum].getLevelCaseXY(secondCasePosX, secondCasePosY) == '.') {
 				levels[currentLevelNum].getBoxAtXY(casePosX, casePosY).setIsInPosition(true); //If the case behind the moving box is a box position, box's isInPosition become true
-				endLevel(); //We test if all the boxes are in position to end level
-			} else if(levels[currentLevelNum].getBoxAtXY(casePosX, casePosY).IsInPosition()) levels[currentLevelNum].getBoxAtXY(casePosX, casePosY).setIsInPosition(false); //If the box was in a position and is move on a non-position case, box's IsInPosition become false
+			} else if(levels[currentLevelNum].getBoxAtXY(casePosX, casePosY).IsInPosition()) levels[currentLevelNum].getBoxAtXY(casePosX, casePosY).setIsInPosition(false); //If the box was in a position and is moved on a non-position case, box's IsInPosition become false
 			levels[currentLevelNum].getBoxAtXY(casePosX, casePosY).move(direction); //Then the box move
 			increaseNbMoves(); //We increase the number of box moves, the "score"
+			endLevel(); //We test if all the boxes are in position to end level
 		}
 		levels[currentLevelNum].getCharacter().move(direction); //If we reach this point, the character can move
 		
@@ -220,6 +211,7 @@ public class Game {
 	//If all the boxes are in position, we stop the game and end level
 	public void endLevel() {
 		if(levels[currentLevelNum].allBoxesInPosition()) {
+			saveGame();
 			gameOn = false;
 			levelEnded = true;
 		}
@@ -227,24 +219,36 @@ public class Game {
 	
 	//Function to pass to the next level
 	public void nextLevel() {
-		saveGame();
 		levels[currentLevelNum].resetLevel();
 		if(currentLevelNum+1 != nbLevel) initGame(currentLevelNum+1);
 	}
 	
-	//Function to save current level informations
+	//Function to save current players informations
 	public void saveGame() {
-		System.out.println("Save function to do.");
+		if(saveScore()) JSONSimple.savePlayers(players, nbPlayer);
 	}
 	
-	public int getBestScore( int levelNum) {
+	//Save the score if it's better or if it's the first time the player do the level. Return true if a score has been saved.
+	public boolean saveScore() {
+		int playerActualScore = getCurrentPlayer().getLevelScore(getCurrentLevelNum());
+		
+		if(playerActualScore == -1 || nbMoves < playerActualScore) {
+			if(playerActualScore == -1) getCurrentPlayer().setNextLevelToPass(currentLevelNum+1);
+			getCurrentPlayer().setLevelScore(getCurrentLevelNum(), nbMoves);
+			return true;
+		}
+		
+		return false;
+	}
+	
+	//Function to return the best score of a level
+	public int getBestScore(int levelNum) {
 		int bestScore = -1;
 		int playerScore;
 		
 		for(int i = 0; i < nbPlayer; i++) {
 			playerScore = players[i].getLevelScore(levelNum);
-			if(playerScore != -1 && bestScore == -1) bestScore = playerScore;
-			if(playerScore != -1 && playerScore < bestScore) bestScore = playerScore;
+			if(playerScore != -1 && (bestScore == -1 || playerScore < bestScore)) bestScore = playerScore;
 		}
 		
 		return bestScore;

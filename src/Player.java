@@ -5,7 +5,7 @@ public class Player {
 	private int nextLevelToPass;
 
 	Player() {
-		
+		allScoreToMinusOne();
 	}
 	
 	Player(String pseudo) {

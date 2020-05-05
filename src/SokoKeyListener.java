@@ -93,6 +93,11 @@ public class SokoKeyListener implements KeyListener {
 					panel.game.menu.select();
 					panel.repaint();
 					break;
+					
+				case KeyEvent.VK_ESCAPE:
+					panel.game.menu.goBack();
+					panel.repaint();
+					break;
 			}
 		}
 	}

@@ -101,7 +101,7 @@ public class Panel extends JPanel {
 		    //Display player best score
 		    g.setFont(fontGeneral);
 			g.setColor(Color.black);
-		    g.drawString("Votre meilleur score : " + (game.getPlayer().getLevelScore(game.getCurrentLevelNum()) != -1 ? game.getPlayer().getLevelScore(game.getCurrentLevelNum()) : "Aucun"), (this.getWidth()/2)-250, 80);
+		    g.drawString("Votre meilleur score : " + (game.getCurrentPlayer().getLevelScore(game.getCurrentLevelNum()) != -1 ? game.getCurrentPlayer().getLevelScore(game.getCurrentLevelNum()) : "Aucun"), (this.getWidth()/2)-250, 80);
 		    
 		    //Display level best score
 		    g.drawString("Meilleur score : " + (game.getBestScore(game.getCurrentLevelNum()) != -1 ? game.getBestScore(game.getCurrentLevelNum()) : "Aucun"), (this.getWidth()/2)+30, 80);
@@ -128,7 +128,7 @@ public class Panel extends JPanel {
 					
 					if(game.getCurrentPlayerNum() != -1) {
 						g.setColor(Color.DARK_GRAY);
-					    g.drawString("Joueur : " + game.getPlayer().getPseudo(), (this.getWidth()/2)-100, 320);
+					    g.drawString("Joueur : " + game.getCurrentPlayer().getPseudo(), (this.getWidth()/2)-100, 320);
 						
 						if(game.menu.getYMenuChoice() == 1) g.setColor(Color.red);
 						else g.setColor(Color.black);
@@ -158,13 +158,12 @@ public class Panel extends JPanel {
 					//We change the thickness of the graphic objects
 					Graphics2D g2 = (Graphics2D) g;
 					float thickness = 2;
-					Stroke oldStroke = g2.getStroke();
 					g2.setStroke(new BasicStroke(thickness));
 					
 					//We draw the level mosaic
 					for(int i = 0; i < 7; i++) {
 						for(int j = 0; j < 7; j++) {
-							if(game.getPlayer().getNextLevelToPass() < levelCounter) g.drawImage(imgLock, mosaicWidthStart + (gap+iconSize)*j, mosaicHeightStart + (gap+iconSize)*i, iconSize, iconSize, this);
+							if(game.getCurrentPlayer().getNextLevelToPass() < levelCounter) g.drawImage(imgLock, mosaicWidthStart + (gap+iconSize)*j, mosaicHeightStart + (gap+iconSize)*i, iconSize, iconSize, this);
 							else g.drawImage(imgLevelIcon[levelCounter], mosaicWidthStart + (gap+iconSize)*j, mosaicHeightStart + (gap+iconSize)*i, iconSize, iconSize, this);
 							
 							if(game.menu.getXMenuChoice() == j+1 && game.menu.getYMenuChoice() == i+1) g.setColor(Color.red);
@@ -184,7 +183,7 @@ public class Panel extends JPanel {
 				    g.drawString("Meilleur score : " + (game.getBestScore(numLevel) != -1 ? game.getBestScore(numLevel) : "Aucun"), (this.getWidth()/2)+30, 80);
 				    
 				    //Display player best score
-				    g.drawString("Votre meilleur score : " + (game.getPlayer().getLevelScore(numLevel) != -1 ? game.getPlayer().getLevelScore(numLevel) : "Aucun"), (this.getWidth()/2)-250, 80);
+				    g.drawString("Votre meilleur score : " + (game.getCurrentPlayer().getLevelScore(numLevel) != -1 ? game.getCurrentPlayer().getLevelScore(numLevel) : "Aucun"), (this.getWidth()/2)-250, 80);
 					break;
 				
 				case 3: //Draw load player menu
