@@ -1,22 +1,23 @@
 
+//Player class is used to store a player
 public class Player {
 	private String pseudo;
-	private int scores [] = new int[Game.nbLevel];
-	private int nextLevelToPass;
+	private int scores [] = new int[Game.nbLevels]; //All the scores of the player
+	private int nextLevelToPass; //The id of the last level the player unlocked
 
 	Player() {
-		allScoreToMinusOne();
+		scoresTabInitialization();
 	}
 	
 	Player(String pseudo) {
 		this.pseudo = pseudo;
 		this.nextLevelToPass = 0;
-		allScoreToMinusOne();
+		scoresTabInitialization();
 	}
 	
 	Player(String pseudo, int [] scoreTab, int nextLevelToPass) {
 		this.pseudo = pseudo;
-		allScoreToMinusOne();
+		scoresTabInitialization();
 		
 		for(int i = 0; i < scoreTab.length; i++) {
 			scores[i] = scoreTab[i];
@@ -49,8 +50,9 @@ public class Player {
 		this.nextLevelToPass = nextLevelToPass;
 	}
 	
-	private void allScoreToMinusOne() {
-		for(int i = 0; i < Game.nbLevel; i++) {
+	//Function to initialize all scores to -1
+	private void scoresTabInitialization() {
+		for(int i = 0; i < Game.nbLevels; i++) {
 			scores[i] = -1;
 		}
 	}

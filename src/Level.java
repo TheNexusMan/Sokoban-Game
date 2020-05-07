@@ -7,8 +7,8 @@ public class Level {
 	private int levelHeight;
 	private char tabLevel[][] = new char[tabSize][tabSize]; //Where the level is loaded
 	private Character character;
-	private int nbBoxes = 0;
-	private Box boxes [] = new Box [boxTabSize];
+	private Box boxes [] = new Box [boxTabSize]; //The list of all the boxes in the level
+	private int nbBoxes = 0; //The number of boxes in the level
 	
 	public int getLevelWidth() {
 		return levelWidth;
@@ -100,7 +100,7 @@ public class Level {
 		}
 	}
 	
-	//For debug only, show the level as it is loaded in the table
+	//For debug only, show the level in the console as it is loaded in the table
 	public void showTable() {
 		for(int i = 0; i < tabSize; i++) {
 			for(int j = 0; j < tabSize; j++) {

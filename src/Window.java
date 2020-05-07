@@ -13,9 +13,9 @@ public class Window extends JFrame {
 		this.setLocationRelativeTo(null); //Window centering
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Window and processus close when click on red cross
 		
-		panel = new Panel(game);
+		panel = new Panel(game); //Unique panel where we draw the game
 		this.setContentPane(panel);
-		panel.addKeyListener(new SokoKeyListener(panel));
+		panel.addKeyListener(new SokoKeyListener(panel)); //We associate the keylistener to the panel
 		panel.setFocusable(true);
 		this.setVisible(true);
 	}

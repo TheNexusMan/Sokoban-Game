@@ -36,11 +36,13 @@ public abstract class MovableElem {
 		this.initPosY = initPosY;
 	}
 	
+	//Replace the object at its initial position
 	public void moveToInitialPos() {
 		posX = initPosX;
 		posY = initPosY;
 	}
 
+	//Move the object according to the direction
 	public void move(String direction) {
 		switch(direction) {
 			case "left":

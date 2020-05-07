@@ -4,7 +4,7 @@ import java.awt.event.KeyListener;
 //SokoKeyListener class is used to perform actions according to the key pressed
 public class SokoKeyListener implements KeyListener {
 
-	public Panel panel;
+	public Panel panel; //We need to pass Panel to SokoKeyListener to access it
 	
 	SokoKeyListener(Panel panel){
 		this.panel = panel;
@@ -39,6 +39,7 @@ public class SokoKeyListener implements KeyListener {
 			}
 		}
 		
+		//Keys that work in game and at the end level pop-in
 		if(!panel.game.inMenu) {
 			switch(e.getKeyCode()) {
 				case KeyEvent.VK_R:
@@ -50,13 +51,13 @@ public class SokoKeyListener implements KeyListener {
 					panel.game.getLevel().resetLevel();
 					panel.game.inMenu = true;
 					panel.game.gameOn = false;
-					panel.game.menu.setMenuOn(1);
+					panel.game.menu.setCurrentMenuId(1);
 					panel.repaint();
 					break;
 			}
 		}
 		
-		//Keys for end level pop-in
+		//Key for end level pop-in
 		if(panel.game.levelEnded) {
 			switch(e.getKeyCode()) {
 				case KeyEvent.VK_ENTER:
@@ -69,34 +70,48 @@ public class SokoKeyListener implements KeyListener {
 		//Keys for the menu
 		if(panel.game.inMenu) {
 			switch(e.getKeyCode()) {
-				case KeyEvent.VK_UP:
+				case KeyEvent.VK_UP: //Go up in a menu
 					panel.game.menu.menuChoice("up");
 					panel.repaint();
 					break;
 				
-				case KeyEvent.VK_DOWN:
+				case KeyEvent.VK_DOWN: //Go down in a menu
 					panel.game.menu.menuChoice("down");
 					panel.repaint();
 					break;
 				
-				case KeyEvent.VK_LEFT:
+				case KeyEvent.VK_LEFT: //Go left in a menu
 					panel.game.menu.menuChoice("left");
 					panel.repaint();
 					break;
 				
-				case KeyEvent.VK_RIGHT:
+				case KeyEvent.VK_RIGHT: //Go right in a menu
 					panel.game.menu.menuChoice("right");
 					panel.repaint();
 					break;
 				
-				case KeyEvent.VK_ENTER:
+				case KeyEvent.VK_ENTER: //Select a choice in a menu
 					panel.game.menu.select();
 					panel.repaint();
 					break;
 					
-				case KeyEvent.VK_ESCAPE:
+				case KeyEvent.VK_ESCAPE: //Go back to the main menu
 					panel.game.menu.goBack();
 					panel.repaint();
+					break;
+				
+				case KeyEvent.VK_DELETE: //Delete a character when writing a new player pseudo
+					if(panel.game.menu.getCurrentMenuId() == 3) {
+						panel.game.menu.deletePlayer();
+						panel.repaint();
+					}
+					break;
+				
+				default: //We use every others entries if the player is writing a new player pseudo
+					if(panel.game.creatingPlayer) {
+						panel.game.createNewPlayerPseudo(e);
+						panel.repaint();
+					}
 					break;
 			}
 		}

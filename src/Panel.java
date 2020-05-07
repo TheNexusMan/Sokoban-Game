@@ -4,7 +4,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Stroke;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -15,17 +14,21 @@ public class Panel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	//We need to pass the game to panel to access it
+	//We need to pass Game to Panel to access it
 	public Game game;
+	
+	//The different fonts for the game
 	private Font fontGeneral = new Font(Font.SANS_SERIF, Font.BOLD, 18);
 	private Font fontTitle = new Font(Font.SANS_SERIF, Font.BOLD, 30);
 	private Font fontBigTitle = new Font(Font.SANS_SERIF, Font.BOLD, 42);
+	
+	//The different images for the game
 	private Image imgLogo = null;
 	private Image imgWall = null;
 	private Image imgPosition = null;
 	private Image imgBox = null;
 	private Image imgBoxInPosition = null;
-	private Image imgLevelIcon [] = new Image [Game.nbLevel];
+	private Image imgLevelIcon [] = new Image [Game.nbLevels];
 	private Image imgLock = null;
 	
 	Panel(Game game){
@@ -35,7 +38,7 @@ public class Panel extends JPanel {
 		//Set game background
 		this.setBackground(Color.white);
 		
-		//Loading textures
+		//Loading images
 		try {
 			imgLogo = ImageIO.read(new File("data\\logo.png"));
 		    imgWall = ImageIO.read(new File("data\\texture\\wall.png"));
@@ -44,7 +47,7 @@ public class Panel extends JPanel {
 		    imgBoxInPosition = ImageIO.read(new File("data\\texture\\boxInPosition.jpg"));
 		    imgLock = ImageIO.read(new File("data\\level-icons\\lock.jpg"));
 		    
-		    for(int i = 0; i < Game.nbLevel; i++) {
+		    for(int i = 0; i < Game.nbLevels; i++) {
 		    	imgLevelIcon[i] = ImageIO.read(new File("data\\level-icons\\level-" + (i+1) + ".png"));
 		    }
 		    
@@ -58,9 +61,9 @@ public class Panel extends JPanel {
 		super.paintComponent(g);
 		g.setFont(fontGeneral);
 		
-		if(!game.inMenu) { //We display the game if we're not int the menu
+		if(!game.inMenu) { //We display the game if we're not in the menu
 			double blockSize = 30; //Block size in window percentage
-			int widthLevelStart = (int) ((this.getWidth() - (game.getLevel().getLevelWidth()*blockSize))/2); //The width were we begin to display the level at the center
+			int widthLevelStart = (int) ((this.getWidth() - (game.getLevel().getLevelWidth()*blockSize))/2); //The width where we begin to display the level for it to be at the center
 			int heightLevelStart = 150; //The height were we begin to display the level
 			
 			//Display walls and boxes goal positions
@@ -94,17 +97,17 @@ public class Panel extends JPanel {
 			//Display level number
 			g.setFont(fontTitle);
 			g.setColor(Color.red);
-		    g.drawString("Niveau " + ((game.getCurrentLevelNum()+1) < 10 ? "0" : "") + (game.getCurrentLevelNum()+1), (this.getWidth()/2)-80, 40);
+		    g.drawString("Niveau " + ((game.getCurrentLevelId()+1) < 10 ? "0" : "") + (game.getCurrentLevelId()+1), (this.getWidth()/2)-80, 40);
 			
 			
 		    
 		    //Display player best score
 		    g.setFont(fontGeneral);
 			g.setColor(Color.black);
-		    g.drawString("Votre meilleur score : " + (game.getCurrentPlayer().getLevelScore(game.getCurrentLevelNum()) != -1 ? game.getCurrentPlayer().getLevelScore(game.getCurrentLevelNum()) : "Aucun"), (this.getWidth()/2)-250, 80);
+		    g.drawString("Votre meilleur score : " + (game.getCurrentPlayer().getLevelScore(game.getCurrentLevelId()) != -1 ? game.getCurrentPlayer().getLevelScore(game.getCurrentLevelId()) : "Aucun"), (this.getWidth()/2)-250, 80);
 		    
 		    //Display level best score
-		    g.drawString("Meilleur score : " + (game.getBestScore(game.getCurrentLevelNum()) != -1 ? game.getBestScore(game.getCurrentLevelNum()) : "Aucun"), (this.getWidth()/2)+30, 80);
+		    g.drawString("Meilleur score : " + (game.getBestScore(game.getCurrentLevelId()) != -1 ? game.getBestScore(game.getCurrentLevelId()) : "Aucun"), (this.getWidth()/2)+30, 80);
 		    
 		    //Display actual player score
 		    g.drawString("Score : " + game.getNbMoves(), (this.getWidth()/2)-50, 110);
@@ -120,29 +123,29 @@ public class Panel extends JPanel {
 			}
 		} else { //We display the menu	
 			
-			switch(game.menu.getMenuOn()) {
+			switch(game.menu.getCurrentMenuId()) {
 				case 1: //Draw main menu
 					g.drawImage(imgLogo, (this.getWidth()/2)-100, 50, 200, 200, this);
 					
 					g.setFont(fontTitle);
 					
-					if(game.getCurrentPlayerNum() != -1) {
+					if(game.getCurrentPlayerId() != -1) { //We draw these menu choices only if a player has been selected
 						g.setColor(Color.DARK_GRAY);
 					    g.drawString("Joueur : " + game.getCurrentPlayer().getPseudo(), (this.getWidth()/2)-100, 320);
-						
+
 						if(game.menu.getYMenuChoice() == 1) g.setColor(Color.red);
 						else g.setColor(Color.black);
 					    g.drawString("Reprendre", (this.getWidth()/2)-100, 400);
-					    
+
 					    if(game.menu.getYMenuChoice() == 2) g.setColor(Color.red);
 					    else g.setColor(Color.black);
 					    g.drawString("Choix du niveau", (this.getWidth()/2)-100, 450);
 					}
-				    
+
 				    if(game.menu.getYMenuChoice() == 3) g.setColor(Color.red);
 				    else g.setColor(Color.black);
 				    g.drawString("Charger joueur", (this.getWidth()/2)-100, 500);
-				    
+
 				    if(game.menu.getYMenuChoice() == 4) g.setColor(Color.red);
 				    else g.setColor(Color.black);
 				    g.drawString("Quitter", (this.getWidth()/2)-100, 550);
@@ -163,9 +166,12 @@ public class Panel extends JPanel {
 					//We draw the level mosaic
 					for(int i = 0; i < 7; i++) {
 						for(int j = 0; j < 7; j++) {
+							
+							//If the level isn't already passed by the player, we show a lock image. If he passed it, we show the icon of the level.
 							if(game.getCurrentPlayer().getNextLevelToPass() < levelCounter) g.drawImage(imgLock, mosaicWidthStart + (gap+iconSize)*j, mosaicHeightStart + (gap+iconSize)*i, iconSize, iconSize, this);
 							else g.drawImage(imgLevelIcon[levelCounter], mosaicWidthStart + (gap+iconSize)*j, mosaicHeightStart + (gap+iconSize)*i, iconSize, iconSize, this);
 							
+							//We draw the square around the image
 							if(game.menu.getXMenuChoice() == j+1 && game.menu.getYMenuChoice() == i+1) g.setColor(Color.red);
 							else g.setColor(Color.black);
 							g.drawRect(mosaicWidthStart + (gap+iconSize)*j, mosaicHeightStart + (gap+iconSize)*i, iconSize, iconSize);
@@ -193,14 +199,22 @@ public class Panel extends JPanel {
 					
 					g.setFont(fontTitle);
 					
-					for(int i = 0; i < game.getNbPlayer(); i++) {
+					//Draw the players pseudo
+					for(int i = 0; i < game.getNbPlayers(); i++) {
 						if(game.menu.getYMenuChoice() == i+1) g.setColor(Color.red);
 						else g.setColor(Color.black);
 						g.drawString(game.getPlayer(i).getPseudo(), (this.getWidth()/2)-100, 250+(i*50));
 					}
-					if(game.menu.getYMenuChoice() == game.getNbPlayer()+1) g.setColor(Color.red);
-					else g.setColor(Color.black);
-					g.drawString("Ajouter joueur", (this.getWidth()/2)-100, 250+(game.getNbPlayer()*50));
+					
+					//Draw the choice to add a player only if the number max of players isn't reached
+					if(game.getNbPlayers() < Game.nbMaxPlayers) {
+						if(game.menu.getYMenuChoice() == game.getNbPlayers()+1) g.setColor(Color.red);
+						else g.setColor(Color.black);
+						
+						//If the player is writing a pseudo for a new player, we display the pseudo instead of "Add a player"
+						if(game.creatingPlayer) g.drawString(game.getNewPlayerPseudo(), (this.getWidth()/2)-100, 250+(game.getNbPlayers()*50));
+						else g.drawString("Ajouter un joueur", (this.getWidth()/2)-100, 250+(game.getNbPlayers()*50));
+					}
 					break;
 			}
 			
