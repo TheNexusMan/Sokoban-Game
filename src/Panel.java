@@ -94,7 +94,7 @@ public class Panel extends JPanel {
 				g.drawImage(game.getLevel().getBoxes()[i].IsInPosition() ? imgBoxInPosition : imgBox, (int) ((game.getLevel().getBoxes()[i].getPosX()*blockSize) + widthLevelStart), (int) ((game.getLevel().getBoxes()[i].getPosY()*blockSize) + heightLevelStart), (int) blockSize, (int) blockSize, this);
 			}
 			
-			//Display level number
+			//Display level id
 			g.setFont(fontTitle);
 			g.setColor(Color.red);
 		    g.drawString("Niveau " + ((game.getCurrentLevelId()+1) < 10 ? "0" : "") + (game.getCurrentLevelId()+1), (this.getWidth()/2)-80, 40);
@@ -182,14 +182,14 @@ public class Panel extends JPanel {
 					//Display player best score
 				    g.setFont(fontGeneral);
 					g.setColor(Color.black);
-					int numLevel = (game.menu.getYMenuChoice()*7-(7-game.menu.getXMenuChoice()))-1;
-					g.drawString("Niveau " + ((numLevel+1) < 10 ? "0" : "") + (numLevel+1), (this.getWidth()/2)-80, 40);
+					int levelId = (game.menu.getYMenuChoice()*7-(7-game.menu.getXMenuChoice()))-1;
+					g.drawString("Niveau " + ((levelId+1) < 10 ? "0" : "") + (levelId+1), (this.getWidth()/2)-80, 40);
 					
 					//Display level best score
-				    g.drawString("Meilleur score : " + (game.getBestScore(numLevel) != -1 ? game.getBestScore(numLevel) : "Aucun"), (this.getWidth()/2)+30, 80);
+				    g.drawString("Meilleur score : " + (game.getBestScore(levelId) != -1 ? game.getBestScore(levelId) : "Aucun"), (this.getWidth()/2)+30, 80);
 				    
 				    //Display player best score
-				    g.drawString("Votre meilleur score : " + (game.getCurrentPlayer().getLevelScore(numLevel) != -1 ? game.getCurrentPlayer().getLevelScore(numLevel) : "Aucun"), (this.getWidth()/2)-250, 80);
+				    g.drawString("Votre meilleur score : " + (game.getCurrentPlayer().getLevelScore(levelId) != -1 ? game.getCurrentPlayer().getLevelScore(levelId) : "Aucun"), (this.getWidth()/2)-250, 80);
 					break;
 				
 				case 3: //Draw load player menu

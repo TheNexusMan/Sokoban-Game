@@ -7,7 +7,7 @@ public class JSONSimple {
 	
 	@SuppressWarnings("unchecked")
 	//Function to save all the game data in a JSON file
-	public static void saveGameToJSON(Player[] players, int nbPlayers, int currentPlayerNum){
+	public static void saveGameToJSON(Player[] players, int nbPlayers, int currentPlayerId){
 		
         JSONObject obj =  new JSONObject();
         JSONArray playersList = new JSONArray();
@@ -15,7 +15,7 @@ public class JSONSimple {
         JSONArray scoreList;
         
         //Save the last player selected
-        obj.put("currentPlayerNum", currentPlayerNum);
+        obj.put("currentPlayerId", currentPlayerId);
         
         //Save all the players
         for(int i = 0; i < nbPlayers; i++) {
@@ -58,7 +58,7 @@ public class JSONSimple {
         	JSONObject obj = (JSONObject) parser.parse(new FileReader("data\\saveFiles\\save.json"));
         	
         	//Load the last player selected
-        	game.setCurrentPlayerId(((Long) obj.get("currentPlayerNum")).intValue());
+        	game.setCurrentPlayerId(((Long) obj.get("currentPlayerId")).intValue());
             
         	//Load all the players
         	JSONArray JSONPlayers = (JSONArray) obj.get("playersTab");

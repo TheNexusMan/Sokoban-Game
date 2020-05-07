@@ -110,9 +110,9 @@ public class Game {
 	}
 	
 	//Game and level initialization
-	public void initLevel(int levelNum) {
+	public void initLevel(int levelId) {
 		setNbMoves(0);
-		setCurrentLevelId(levelNum);
+		setCurrentLevelId(levelId);
 		getLevel().resetLevel();
 		gameOn = true;
 		levelEnded = false;
@@ -259,12 +259,12 @@ public class Game {
 	}
 	
 	//Function to return the best score of a level
-	public int getBestScore(int levelNum) {
+	public int getBestScore(int levelId) {
 		int bestScore = -1;
 		int playerScore;
 		
 		for(int i = 0; i < nbPlayers; i++) {
-			playerScore = players[i].getLevelScore(levelNum);
+			playerScore = players[i].getLevelScore(levelId);
 			if(playerScore != -1 && (bestScore == -1 || playerScore < bestScore)) bestScore = playerScore; //If player score exist (not -1) and is lower than all the previous score, we save it as the bestScore
 		}
 		
