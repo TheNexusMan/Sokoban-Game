@@ -125,7 +125,7 @@ public class Menu {
 						break;
 						
 					case 4 : //If the player chose "Quitter" we quit the program
-						game.window.dispose();
+						System.exit(0);
 						break;
 				}
 				break;
