@@ -171,9 +171,9 @@ public class Menu {
 				game.resetNewPlayerPseudo();
 				game.creatingPlayer = false;
 			}
-			currentMenuId = 1;
 			XMenuChoice = 1;
-			YMenuChoice = game.getCurrentPlayerId() == -1 ? 3 : 1; //If no player is loaded, there's only the two last choices in the main menu
+			YMenuChoice = game.getCurrentPlayerId() == -1 ? 3 : currentMenuId; //If no player is loaded, there's only the two last choices in the main menu
+			currentMenuId = 1;
 		}
 	}
 }

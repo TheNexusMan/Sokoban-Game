@@ -26,7 +26,11 @@ public class JSONSimple {
         	
         	//Save the player scores
         	scoreList = new JSONArray();
-        	for(int j = 0; j < players[i].getNextLevelToPass(); j++) {
+        	int maxScore;
+        	if(players[i].getNextLevelToPass() == Game.nbLevels-1) maxScore = players[i].getNextLevelToPass()+1;
+        	else maxScore = players[i].getNextLevelToPass();
+        	
+        	for(int j = 0; j < maxScore; j++) {
         		scoreList.add(players[i].getLevelScore(j));
         	}
         	player.put("scoreList", scoreList);

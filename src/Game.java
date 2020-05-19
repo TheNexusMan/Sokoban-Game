@@ -41,7 +41,7 @@ public class Game {
 		this.nbMoves++;
 	}
 
-	public Level getLevel() {
+	public Level getCurrentLevel() {
 		return levels[currentLevelId];
 	}
 	
@@ -113,15 +113,15 @@ public class Game {
 	public void initLevel(int levelId) {
 		setNbMoves(0);
 		setCurrentLevelId(levelId);
-		getLevel().resetLevel();
+		getCurrentLevel().resetLevel();
 		gameOn = true;
 		levelEnded = false;
 	}
 	
 	//Load all levels from text file
 	private void loadAllLevels() {
-		File file = new File("data\\levels\\levels.txt");
-		//File file = new File("data\\levels\\levels-easy.txt"); //For development only
+		//File file = new File("data\\levels\\levels.txt");
+		File file = new File("data\\levels\\levels-easy.txt"); //For development only
 		//File file = new File("data\\levels\\levels-fullwall.txt"); //For development only
 		Scanner sc = null;
 		try {
@@ -138,26 +138,24 @@ public class Game {
 			line = sc.nextLine();
 			
 			if(line.equals("next")) { //If we encounter a "next" line, it means we've started to read a level
-				
 				i = 0;
 				l++;
 				width = 0;
 				levels[l] = new Level();
-				
 			} else if(line.equals("break")) { //If we encounter a "break" line, it means we've finished to read a level
 				
-				levels[l].setLevelWidth(width+1);
+				levels[l].setLevelWidth(width);
 				levels[l].setLevelHeight(i);
 				
 			} else {
 				
-				for(int j = 0; j < line.length(); j++) //We go through the line
-				{
+				for(int j = 0; j < line.length(); j++) { //We go through the line
 					if(line.charAt(j) == '*') levels[l].addABox(i, j); //We add a new box
 					if(line.charAt(j) == '@') levels[l].createCharacter(i, j); //We save the character position
 					levels[l].setLevelCaseIJ(line.charAt(j), i, j); //We save the character in the table
-					if(width < j) width = j;
 				}
+				
+				if(line.length() > width) width = line.length(); //We calculate the length of the level
 				i++;
 				
 			}
@@ -215,20 +213,18 @@ public class Game {
 			} else if(levels[currentLevelId].getBoxAtXY(casePosX, casePosY).IsInPosition()) levels[currentLevelId].getBoxAtXY(casePosX, casePosY).setIsInPosition(false); //If the box was in a position and is moved on a non-position case, box's IsInPosition become false
 			levels[currentLevelId].getBoxAtXY(casePosX, casePosY).move(direction); //Then the box move
 			increaseNbMoves(); //We increase the number of box moves, the "score"
-			endLevel(); //We test if all the boxes are in position to end level
+			if(levels[currentLevelId].allBoxesInPosition()) endLevel(); //We test if all the boxes are in position to end level
 		}
 		levels[currentLevelId].getCharacter().move(direction); //If we reach this point, the character can move
 		
 		return true;
 	}
 	
-	//If all the boxes are in position, we stop the game and end level
+	//Function to end the current level
 	public void endLevel() {
-		if(levels[currentLevelId].allBoxesInPosition()) {
-			saveScore();
-			gameOn = false;
-			levelEnded = true;
-		}
+		saveScore();
+		gameOn = false;
+		levelEnded = true;
 	}
 	
 	//Function to pass to the next level

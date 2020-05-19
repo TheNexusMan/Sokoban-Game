@@ -1,11 +1,5 @@
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
+import java.awt.*;
+import java.io.*;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
@@ -21,6 +15,7 @@ public class Panel extends JPanel {
 	private Font fontGeneral = new Font(Font.SANS_SERIF, Font.BOLD, 18);
 	private Font fontTitle = new Font(Font.SANS_SERIF, Font.BOLD, 30);
 	private Font fontBigTitle = new Font(Font.SANS_SERIF, Font.BOLD, 42);
+	private Font fontSmall = new Font(Font.SANS_SERIF, Font.TRUETYPE_FONT, 18);
 	
 	//The different images for the game
 	private Image imgLogo = null;
@@ -59,24 +54,48 @@ public class Panel extends JPanel {
 	//paintComponent procedure display the different elements on the panel
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.setFont(fontGeneral);
+		Graphics2D g2d = (Graphics2D) g;
+		
+		//Initialization of fonts metric sizes
+		FontMetrics fontMetricsGeneral = g2d.getFontMetrics(fontGeneral);
+		FontMetrics fontMetricsTitle = g2d.getFontMetrics(fontTitle);
+		FontMetrics fontMetricsBigTitle = g2d.getFontMetrics(fontBigTitle);
+		FontMetrics fontMetricsSmall = g2d.getFontMetrics(fontSmall);
 		
 		if(!game.inMenu) { //We display the game if we're not in the menu
 			double blockSize = 30; //Block size in window percentage
-			int widthLevelStart = (int) ((this.getWidth() - (game.getLevel().getLevelWidth()*blockSize))/2); //The width where we begin to display the level for it to be at the center
+			int widthLevelStart = (int) ((this.getWidth() - (game.getCurrentLevel().getLevelWidth()*blockSize))/2); //The width where we begin to display the level for it to be at the center
 			int heightLevelStart = 150; //The height were we begin to display the level
+			
+			//Display level id
+			g2d.setFont(fontTitle);
+			g2d.setColor(Color.red);
+		    String levelNb = "Niveau " + ((game.getCurrentLevelId()+1) < 10 ? "0" : "") + (game.getCurrentLevelId()+1);
+		    g2d.drawString(levelNb, (int) (this.getWidth() - fontMetricsTitle.stringWidth(levelNb))/2, 40);
+			
+		    //Display player best score
+		    g2d.setFont(fontGeneral);
+			g2d.setColor(Color.black);
+		    g2d.drawString("Votre meilleur score : " + (game.getCurrentPlayer().getLevelScore(game.getCurrentLevelId()) != -1 ? game.getCurrentPlayer().getLevelScore(game.getCurrentLevelId()) : "Aucun"), (this.getWidth()/2)-240, 80);
+		    
+		    //Display level best score
+		    g2d.drawString("Meilleur score : " + (game.getBestScore(game.getCurrentLevelId()) != -1 ? game.getBestScore(game.getCurrentLevelId()) : "Aucun"), (this.getWidth()/2)+30, 80);
+		    
+		    //Display actual player score
+		    String actualScore = "Score : " + game.getNbMoves();
+		    g2d.drawString(actualScore, (int) (this.getWidth() - fontMetricsGeneral.stringWidth(actualScore))/2, 110);
 			
 			//Display walls and boxes goal positions
 			for(int i = 0; i < Level.tabSize; i++) {
 				for(int j = 0; j < Level.tabSize; j++) {
 					
-					switch (game.getLevel().getLevelCaseIJ(i, j)) {
+					switch (game.getCurrentLevel().getLevelCaseIJ(i, j)) {
 					case 'X':
-						g.drawImage(imgWall, (int) ((j*blockSize) + widthLevelStart), (int) ((i*blockSize) + heightLevelStart), (int) blockSize, (int) blockSize, this);
+						g2d.drawImage(imgWall, (int) ((j*blockSize) + widthLevelStart), (int) ((i*blockSize) + heightLevelStart), (int) blockSize, (int) blockSize, this);
 						break;
 					
 					case '.':
-						g.drawImage(imgPosition, (int) ((j*blockSize) + widthLevelStart), (int) ((i*blockSize) + heightLevelStart), (int) blockSize, (int) blockSize, this);
+						g2d.drawImage(imgPosition, (int) ((j*blockSize) + widthLevelStart), (int) ((i*blockSize) + heightLevelStart), (int) blockSize, (int) blockSize, this);
 						break;
 						
 					default:
@@ -87,134 +106,155 @@ public class Panel extends JPanel {
 			}
 			
 			//Display character
-			g.drawImage(game.getLevel().getCharacter().getImgCharacter(), (int) ((game.getLevel().getCharacter().getPosX()*blockSize) + widthLevelStart), (int) ((game.getLevel().getCharacter().getPosY()*blockSize) + heightLevelStart), (int) blockSize, (int) blockSize, this);
+			g2d.drawImage(game.getCurrentLevel().getCharacter().getImgCharacter(), (int) ((game.getCurrentLevel().getCharacter().getPosX()*blockSize) + widthLevelStart), (int) ((game.getCurrentLevel().getCharacter().getPosY()*blockSize) + heightLevelStart), (int) blockSize, (int) blockSize, this);
 			
 			//Display boxes
-			for(int i = 0; i < game.getLevel().getNbBoxes(); i++) {
-				g.drawImage(game.getLevel().getBoxes()[i].IsInPosition() ? imgBoxInPosition : imgBox, (int) ((game.getLevel().getBoxes()[i].getPosX()*blockSize) + widthLevelStart), (int) ((game.getLevel().getBoxes()[i].getPosY()*blockSize) + heightLevelStart), (int) blockSize, (int) blockSize, this);
+			for(int i = 0; i < game.getCurrentLevel().getNbBoxes(); i++) {
+				g2d.drawImage(game.getCurrentLevel().getBoxes()[i].IsInPosition() ? imgBoxInPosition : imgBox, (int) ((game.getCurrentLevel().getBoxes()[i].getPosX()*blockSize) + widthLevelStart), (int) ((game.getCurrentLevel().getBoxes()[i].getPosY()*blockSize) + heightLevelStart), (int) blockSize, (int) blockSize, this);
 			}
-			
-			//Display level id
-			g.setFont(fontTitle);
-			g.setColor(Color.red);
-		    g.drawString("Niveau " + ((game.getCurrentLevelId()+1) < 10 ? "0" : "") + (game.getCurrentLevelId()+1), (this.getWidth()/2)-80, 40);
-			
-			
 		    
-		    //Display player best score
-		    g.setFont(fontGeneral);
-			g.setColor(Color.black);
-		    g.drawString("Votre meilleur score : " + (game.getCurrentPlayer().getLevelScore(game.getCurrentLevelId()) != -1 ? game.getCurrentPlayer().getLevelScore(game.getCurrentLevelId()) : "Aucun"), (this.getWidth()/2)-250, 80);
-		    
-		    //Display level best score
-		    g.drawString("Meilleur score : " + (game.getBestScore(game.getCurrentLevelId()) != -1 ? game.getBestScore(game.getCurrentLevelId()) : "Aucun"), (this.getWidth()/2)+30, 80);
-		    
-		    //Display actual player score
-		    g.drawString("Score : " + game.getNbMoves(), (this.getWidth()/2)-50, 110);
+		    //Draw keys info
+			g2d.setFont(fontSmall);
+		    g2d.setColor(Color.GRAY);
+			String inGameKeyInfos = "(Esc) Menu principal  (R) Recommencer le niveau";
+		    g2d.drawString(inGameKeyInfos, (int) (this.getWidth() - fontMetricsSmall.stringWidth(inGameKeyInfos))/2, (int) (heightLevelStart + 50 + blockSize * game.getCurrentLevel().getLevelHeight()));
 			
 			//Display end level pop-in
 			if(game.levelEnded) {
-				g.fillRoundRect((this.getWidth()/2)-200, (this.getHeight()/2)-100, 400, 200, 5, 5);
-			    g.setColor(Color.red);
-			    g.drawString("Nombre de déplacements : " + game.getNbMoves(), (this.getWidth()/2)-150, (this.getHeight()/2-50));
-			    g.setColor(Color.white);
-			    g.drawString("Niveau suivant (Enter)", (this.getWidth()/2)-150, (this.getHeight()/2));
-			    g.drawString("Recommencer le niveau (R)", (this.getWidth()/2)-150, (this.getHeight()/2+30));
+				g2d.setColor(Color.black);
+				g2d.fillRoundRect((this.getWidth()/2)-200, (this.getHeight()/2)-100, 400, 200, 5, 5);
+			    g2d.setColor(Color.red);
+			    g2d.drawString("Nombre de déplacements : " + game.getNbMoves(), (this.getWidth()/2)-150, (this.getHeight()/2-50));
+			    g2d.setColor(Color.white);
+			    g2d.drawString("Niveau suivant (Enter)", (this.getWidth()/2)-150, (this.getHeight()/2));
+			    g2d.drawString("Recommencer le niveau (R)", (this.getWidth()/2)-150, (this.getHeight()/2+30));
+			    g2d.drawString("Menu principal (Esc)", (this.getWidth()/2)-150, (this.getHeight()/2+60));
 			}
+			
 		} else { //We display the menu	
 			
 			switch(game.menu.getCurrentMenuId()) {
 				case 1: //Draw main menu
-					g.drawImage(imgLogo, (this.getWidth()/2)-100, 50, 200, 200, this);
+					g2d.drawImage(imgLogo, (this.getWidth()/2)-100, 50, 200, 200, this);
 					
-					g.setFont(fontTitle);
+					g2d.setFont(fontTitle);
 					
 					if(game.getCurrentPlayerId() != -1) { //We draw these menu choices only if a player has been selected
-						g.setColor(Color.DARK_GRAY);
-					    g.drawString("Joueur : " + game.getCurrentPlayer().getPseudo(), (this.getWidth()/2)-100, 320);
+						g2d.setColor(Color.DARK_GRAY);
+						
+						String loadedPlayerName = "Joueur : " + game.getCurrentPlayer().getPseudo();
+					    g2d.drawString(loadedPlayerName, (int) (this.getWidth() - fontMetricsTitle.stringWidth(loadedPlayerName))/2, 320);
 
-						if(game.menu.getYMenuChoice() == 1) g.setColor(Color.red);
-						else g.setColor(Color.black);
-					    g.drawString("Reprendre", (this.getWidth()/2)-100, 400);
+						if(game.menu.getYMenuChoice() == 1) g2d.setColor(Color.red);
+						else g2d.setColor(Color.black);
+					    g2d.drawString("Reprendre", (this.getWidth()/2)-100, 400);
 
-					    if(game.menu.getYMenuChoice() == 2) g.setColor(Color.red);
-					    else g.setColor(Color.black);
-					    g.drawString("Choix du niveau", (this.getWidth()/2)-100, 450);
+					    if(game.menu.getYMenuChoice() == 2) g2d.setColor(Color.red);
+					    else g2d.setColor(Color.black);
+					    g2d.drawString("Choix du niveau", (this.getWidth()/2)-100, 450);
 					}
 
-				    if(game.menu.getYMenuChoice() == 3) g.setColor(Color.red);
-				    else g.setColor(Color.black);
-				    g.drawString("Charger joueur", (this.getWidth()/2)-100, 500);
+				    if(game.menu.getYMenuChoice() == 3) g2d.setColor(Color.red);
+				    else g2d.setColor(Color.black);
+				    g2d.drawString("Charger joueur", (this.getWidth()/2)-100, 500);
 
-				    if(game.menu.getYMenuChoice() == 4) g.setColor(Color.red);
-				    else g.setColor(Color.black);
-				    g.drawString("Quitter", (this.getWidth()/2)-100, 550);
+				    if(game.menu.getYMenuChoice() == 4) g2d.setColor(Color.red);
+				    else g2d.setColor(Color.black);
+				    g2d.drawString("Quitter", (this.getWidth()/2)-100, 550);
 					break;
 				
 				case 2: //Draw level choice menu
 					int gap = 20;
 					int iconSize = 75;
-					int mosaicWidthStart = (this.getWidth() - ((7*iconSize) + (7*gap)))/2;
+					int mosaicWidthStart = (this.getWidth() - ((7*iconSize) + (6*gap)))/2;
 					int mosaicHeightStart = 150;
 					int levelCounter = 0;
 					
 					//We change the thickness of the graphic objects
-					Graphics2D g2 = (Graphics2D) g;
-					float thickness = 2;
-					g2.setStroke(new BasicStroke(thickness));
+					Stroke oldStroke = g2d.getStroke();
+					g2d.setStroke(new BasicStroke(2));
 					
 					//We draw the level mosaic
 					for(int i = 0; i < 7; i++) {
 						for(int j = 0; j < 7; j++) {
 							
 							//If the level isn't already passed by the player, we show a lock image. If he passed it, we show the icon of the level.
-							if(game.getCurrentPlayer().getNextLevelToPass() < levelCounter) g.drawImage(imgLock, mosaicWidthStart + (gap+iconSize)*j, mosaicHeightStart + (gap+iconSize)*i, iconSize, iconSize, this);
-							else g.drawImage(imgLevelIcon[levelCounter], mosaicWidthStart + (gap+iconSize)*j, mosaicHeightStart + (gap+iconSize)*i, iconSize, iconSize, this);
+							if(game.getCurrentPlayer().getNextLevelToPass() < levelCounter) g2d.drawImage(imgLock, mosaicWidthStart + (gap+iconSize)*j, mosaicHeightStart + (gap+iconSize)*i, iconSize, iconSize, this);
+							else g2d.drawImage(imgLevelIcon[levelCounter], mosaicWidthStart + (gap+iconSize)*j, mosaicHeightStart + (gap+iconSize)*i, iconSize, iconSize, this);
 							
 							//We draw the square around the image
-							if(game.menu.getXMenuChoice() == j+1 && game.menu.getYMenuChoice() == i+1) g.setColor(Color.red);
-							else g.setColor(Color.black);
-							g.drawRect(mosaicWidthStart + (gap+iconSize)*j, mosaicHeightStart + (gap+iconSize)*i, iconSize, iconSize);
+							if(game.menu.getXMenuChoice() == j+1 && game.menu.getYMenuChoice() == i+1) g2d.setColor(Color.red);
+							else g2d.setColor(Color.black);
+							g2d.drawRect(mosaicWidthStart + (gap+iconSize)*j, mosaicHeightStart + (gap+iconSize)*i, iconSize, iconSize);
 							levelCounter++;
 						}
 					}
 					
-					//Display player best score
-				    g.setFont(fontGeneral);
-					g.setColor(Color.black);
+					g2d.setStroke(oldStroke); //We restore the old stroke
+					
+					//Display level number
+				    g2d.setFont(fontTitle);
+					g2d.setColor(Color.black);
 					int levelId = (game.menu.getYMenuChoice()*7-(7-game.menu.getXMenuChoice()))-1;
-					g.drawString("Niveau " + ((levelId+1) < 10 ? "0" : "") + (levelId+1), (this.getWidth()/2)-80, 40);
+					String levelNumber = "Niveau " + ((levelId+1) < 10 ? "0" : "") + (levelId+1);
+				    g2d.drawString(levelNumber, (int) (this.getWidth() - fontMetricsTitle.stringWidth(levelNumber))/2, 40);
 					
 					//Display level best score
-				    g.drawString("Meilleur score : " + (game.getBestScore(levelId) != -1 ? game.getBestScore(levelId) : "Aucun"), (this.getWidth()/2)+30, 80);
+					g2d.setFont(fontGeneral);
+				    g2d.drawString("Meilleur score : " + (game.getBestScore(levelId) != -1 ? game.getBestScore(levelId) : "Aucun"), (this.getWidth()/2)+50, 80);
 				    
 				    //Display player best score
-				    g.drawString("Votre meilleur score : " + (game.getCurrentPlayer().getLevelScore(levelId) != -1 ? game.getCurrentPlayer().getLevelScore(levelId) : "Aucun"), (this.getWidth()/2)-250, 80);
+				    g2d.drawString("Votre meilleur score : " + (game.getCurrentPlayer().getLevelScore(levelId) != -1 ? game.getCurrentPlayer().getLevelScore(levelId) : "Aucun"), (this.getWidth()/2)-230, 80);
+					
+					//Draw key info
+					g2d.setFont(fontSmall);
+				    g2d.setColor(Color.GRAY);
+					String keysInfo = "(Esc) Menu principal";
+				    g2d.drawString(keysInfo, (int) (this.getWidth() - fontMetricsSmall.stringWidth(keysInfo))/2, 850);
+					
 					break;
 				
 				case 3: //Draw load player menu
-					g.setColor(Color.black);
-					g.setFont(fontBigTitle);
-					g.drawString("Charger un joueur :", (this.getWidth()/2)-200, 150);
+					g2d.setColor(Color.black);
+					g2d.setFont(fontBigTitle);
+					String loadMenuTitle = "Charger un joueur :";
+				    g2d.drawString(loadMenuTitle, (int) (this.getWidth() - fontMetricsBigTitle.stringWidth(loadMenuTitle))/2, 150);
 					
-					g.setFont(fontTitle);
+					//Draw the player already load if there is one
+					g2d.setFont(fontGeneral);
+					g2d.setColor(Color.DARK_GRAY);
+				    String playerLoadedName = "Joueur chargé : " + (game.getCurrentPlayerId() != -1 ? game.getCurrentPlayer().getPseudo() : "aucun");
+				    g2d.drawString(playerLoadedName, (int) (this.getWidth() - fontMetricsGeneral.stringWidth(playerLoadedName))/2, 200);
 					
 					//Draw the players pseudo
+				    g2d.setFont(fontTitle);
+				    g2d.setColor(Color.black);
+				    
 					for(int i = 0; i < game.getNbPlayers(); i++) {
-						if(game.menu.getYMenuChoice() == i+1) g.setColor(Color.red);
-						else g.setColor(Color.black);
-						g.drawString(game.getPlayer(i).getPseudo(), (this.getWidth()/2)-100, 250+(i*50));
+						if(game.menu.getYMenuChoice() == i+1) g2d.setColor(Color.red);
+						else g2d.setColor(Color.black);
+						g2d.drawString(game.getPlayer(i).getPseudo(), (this.getWidth()/2)-130, 270+(i*50));
 					}
 					
 					//Draw the choice to add a player only if the number max of players isn't reached
 					if(game.getNbPlayers() < Game.nbMaxPlayers) {
-						if(game.menu.getYMenuChoice() == game.getNbPlayers()+1) g.setColor(Color.red);
-						else g.setColor(Color.black);
+						if(game.menu.getYMenuChoice() == game.getNbPlayers()+1) g2d.setColor(Color.red);
+						else g2d.setColor(Color.black);
 						
 						//If the player is writing a pseudo for a new player, we display the pseudo instead of "Add a player"
-						if(game.creatingPlayer) g.drawString(game.getNewPlayerPseudo(), (this.getWidth()/2)-100, 250+(game.getNbPlayers()*50));
-						else g.drawString("Ajouter un joueur", (this.getWidth()/2)-100, 250+(game.getNbPlayers()*50));
+						if(game.creatingPlayer) {
+							g2d.setColor(Color.DARK_GRAY);
+							g2d.drawString(game.getNewPlayerPseudo().equals("") ? "Entrer un pseudo" : game.getNewPlayerPseudo(), (this.getWidth()/2)-130, 270+(game.getNbPlayers()*50));
+						}
+						else g2d.drawString("Ajouter un joueur", (this.getWidth()/2)-130, 270+(game.getNbPlayers()*50));
 					}
+					
+					//Draw keys info
+					g2d.setFont(fontSmall);
+				    g2d.setColor(Color.GRAY);
+					String ldMnKeyInfo = "(Esc) Menu principal  (Del) Supprimer le joueur";
+				    g2d.drawString(ldMnKeyInfo, (int) (this.getWidth() - fontMetricsSmall.stringWidth(ldMnKeyInfo))/2, 320+(game.getNbPlayers()*50));
+					
 					break;
 			}
 			

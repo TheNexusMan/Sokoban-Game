@@ -48,7 +48,7 @@ public class SokoKeyListener implements KeyListener {
 					break;
 					
 				case KeyEvent.VK_ESCAPE :
-					panel.game.getLevel().resetLevel();
+					panel.game.getCurrentLevel().resetLevel();
 					panel.game.inMenu = true;
 					panel.game.gameOn = false;
 					panel.game.menu.setCurrentMenuId(1);
