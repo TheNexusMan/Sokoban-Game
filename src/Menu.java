@@ -50,7 +50,7 @@ public class Menu {
 			case 1: //Main menu : there's only 4 choices.
 				if(game.getCurrentPlayerId() == -1) minYChoice = 3; //If no player are loaded, only 2 choices are visible "Quitter" and "Charger joueur"
 				else minYChoice = 1;
-				maxYChoice = 4;
+				maxYChoice = 5;
 				break;
 			
 			case 2: //Load level menu : player can only go to levels he has already unlocked
@@ -68,6 +68,13 @@ public class Menu {
 				minYChoice = 1;
 				if(game.getNbPlayers() < Game.nbMaxPlayers) maxYChoice = game.getNbPlayers()+1; //If the number max of player saved is not reach, maxYChoice is the number of player saved + 1
 				else maxYChoice = game.getNbPlayers(); //Else it's just the number of player saved
+				break;
+				
+			case 4:
+				minYChoice = 1;
+				maxYChoice = 2;
+				minXChoice = 1;
+				maxXChoice = 4;
 				break;
 		}
 		
@@ -124,7 +131,13 @@ public class Menu {
 						currentMenuId = 3;
 						break;
 						
-					case 4 : //If the player chose "Quitter" we quit the program
+					case 4 : //If the player chose "Options" we change the currentMenuId for this one and initialize the Y index
+						YMenuChoice = 1;
+						XMenuChoice = 1;
+						currentMenuId = 4;
+						break;
+						
+					case 5 : //If the player chose "Quitter" we quit the program
 						System.exit(0);
 						break;
 				}
@@ -152,6 +165,20 @@ public class Menu {
 					game.creatingPlayer = false;
 				}else {
 					game.creatingPlayer = true; //Else we start creating a new player
+				}
+				break;
+				
+			case 4:
+				switch(YMenuChoice) {
+					case 1 :
+						game.getCurrentPlayer().setCharacterChoice(XMenuChoice-1);
+						game.saveGameToFile();
+						break;
+						
+					case 2 :
+						game.getCurrentPlayer().setSceneryChoice(XMenuChoice-1);
+						game.saveGameToFile();
+						break;
 				}
 				break;
 		}

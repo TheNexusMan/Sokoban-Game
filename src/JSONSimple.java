@@ -38,6 +38,12 @@ public class JSONSimple {
         	//Save the last level unlocked by the player
         	player.put("nextLevelToPass", players[i].getNextLevelToPass());
         	
+        	//Save the player's character choice
+        	player.put("characterChoice", players[i].getCharacterChoice());
+        	
+        	//Save the player's scenery choice
+        	player.put("sceneryChoice", players[i].getSceneryChoice());
+        	
         	playersList.add(player);
         }
         
@@ -82,6 +88,12 @@ public class JSONSimple {
         		
         		//Load the last level unlocked by the player
         		players[i].setNextLevelToPass(((Long) player.get("nextLevelToPass")).intValue());
+        		
+        		//Load the player's character choice
+        		players[i].setCharacterChoice(((Long) player.get("characterChoice")).intValue());
+        		
+        		//Load the player's scenery choice
+        		players[i].setSceneryChoice(((Long) player.get("sceneryChoice")).intValue());
         		
         		nbPlayers++;
         	}

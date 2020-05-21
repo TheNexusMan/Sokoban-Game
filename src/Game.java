@@ -7,6 +7,8 @@ import java.util.Scanner;
 public class Game {
 	public static int nbLevels = 49; //Number maximum of levels
 	public static int nbMaxPlayers = 10; //Number maximum of players
+	public static int nbCharacters = 4; //Number of characters
+	public static int nbSceneries = 4; //Number of wall textures
 	public Window window;
 	public Menu menu;
 	private Level levels [] = new Level[nbLevels]; //Levels list
