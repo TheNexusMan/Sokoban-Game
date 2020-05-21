@@ -58,7 +58,7 @@ public class SokoKeyListener implements KeyListener {
 		}
 		
 		//Key for end level pop-in
-		if(panel.game.levelEnded) {
+		if(panel.game.levelEnded && panel.game.getCurrentLevelId() != 48) {
 			switch(e.getKeyCode()) {
 				case KeyEvent.VK_ENTER:
 					panel.game.nextLevel();

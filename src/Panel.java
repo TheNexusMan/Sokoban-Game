@@ -134,13 +134,19 @@ public class Panel extends JPanel {
 			//Display end level pop-in
 			if(game.levelEnded) {
 				g2d.setColor(Color.black);
-				g2d.fillRoundRect((this.getWidth()/2)-200, (this.getHeight()/2)-100, 400, 200, 5, 5);
+				int popinSize = game.getCurrentLevelId() == 48 ? 520 : 400;
+				int textXPosition = ((this.getWidth()-popinSize)/2)+50;
+				g2d.fillRoundRect(((this.getWidth()-popinSize)/2), (this.getHeight()/2)-100, popinSize, 200, 5, 5);
 			    g2d.setColor(Color.red);
-			    g2d.drawString("Nombre de déplacements : " + game.getNbMoves(), (this.getWidth()/2)-150, (this.getHeight()/2-50));
+			    g2d.drawString("Nombre de déplacements : " + game.getNbMoves(), textXPosition, (this.getHeight()/2-50));
+			    if(game.getCurrentLevelId() == 48) g2d.drawString("Félicitations ! Vous avez fini tous les niveaux du jeu !", textXPosition, (this.getHeight()/2-20));
+			    else {
+			    	g2d.setColor(Color.white);
+				    g2d.drawString("Niveau suivant (Enter)", textXPosition, (this.getHeight()/2));
+			    }
 			    g2d.setColor(Color.white);
-			    g2d.drawString("Niveau suivant (Enter)", (this.getWidth()/2)-150, (this.getHeight()/2));
-			    g2d.drawString("Recommencer le niveau (R)", (this.getWidth()/2)-150, (this.getHeight()/2+30));
-			    g2d.drawString("Menu principal (Esc)", (this.getWidth()/2)-150, (this.getHeight()/2+60));
+			    g2d.drawString("Recommencer le niveau (R)", textXPosition, (this.getHeight()/2+30));
+			    g2d.drawString("Menu principal (Esc)", textXPosition, (this.getHeight()/2+60));
 			}
 			
 		} else { //We display the menu	
@@ -307,7 +313,7 @@ public class Panel extends JPanel {
 						g2d.drawRect(choiceMosaicWidthStart + (choiceGap+choiceIconSize)*i, choiceMosaicHeightStart, choiceIconSize, choiceIconSize);
 					}
 				    
-				  //Draw scenery choice
+				    //Draw scenery choice
 					g2d.setColor(Color.black);
 					g2d.setFont(fontTitle);
 					String sceneryChoiceTitle = "Choisissez le décor :";
