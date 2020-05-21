@@ -1,1 +1,24 @@
-{"currentPlayerId":0,"playersTab":[{"scoreList":[999,452,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,2],"nextLevelToPass":48,"pseudo":"AllLevelsFinished"},{"scoreList":[135,141],"nextLevelToPass":2,"pseudo":"Claire"},{"scoreList":[78,250,68,89],"nextLevelToPass":4,"pseudo":"Morgane"},{"scoreList":[256,232,98,121,560,785],"nextLevelToPass":6,"pseudo":"Louis"},{"scoreList":[],"nextLevelToPass":0,"pseudo":"Arnaud"}]}
+{
+    "currentPlayerId": 0,
+    "playersTab": [{
+        "scoreList": [999, 452, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 999, 2],
+        "nextLevelToPass": 48,
+        "pseudo": "AllLevelsFinished"
+    }, {
+        "scoreList": [135, 141],
+        "nextLevelToPass": 2,
+        "pseudo": "Claire"
+    }, {
+        "scoreList": [78, 250, 68, 89],
+        "nextLevelToPass": 4,
+        "pseudo": "Morgane"
+    }, {
+        "scoreList": [256, 232, 98, 121, 560, 785],
+        "nextLevelToPass": 6,
+        "pseudo": "Louis"
+    }, {
+        "scoreList": [],
+        "nextLevelToPass": 0,
+        "pseudo": "Arnaud"
+    }]
+}
