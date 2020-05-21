@@ -134,12 +134,12 @@ public class Panel extends JPanel {
 			//Display end level pop-in
 			if(game.levelEnded) {
 				g2d.setColor(Color.black);
-				int popinSize = game.getCurrentLevelId() == 48 ? 520 : 400;
+				int popinSize = game.getCurrentLevelId() == Game.nbLevels-1 ? 520 : 400;
 				int textXPosition = ((this.getWidth()-popinSize)/2)+50;
 				g2d.fillRoundRect(((this.getWidth()-popinSize)/2), (this.getHeight()/2)-100, popinSize, 200, 5, 5);
 			    g2d.setColor(Color.red);
 			    g2d.drawString("Nombre de déplacements : " + game.getNbMoves(), textXPosition, (this.getHeight()/2-50));
-			    if(game.getCurrentLevelId() == 48) g2d.drawString("Félicitations ! Vous avez fini tous les niveaux du jeu !", textXPosition, (this.getHeight()/2-20));
+			    if(game.getCurrentLevelId() == Game.nbLevels-1) g2d.drawString("Félicitations ! Vous avez fini tous les niveaux du jeu !", textXPosition, (this.getHeight()/2-20));
 			    else {
 			    	g2d.setColor(Color.white);
 				    g2d.drawString("Niveau suivant (Enter)", textXPosition, (this.getHeight()/2));
