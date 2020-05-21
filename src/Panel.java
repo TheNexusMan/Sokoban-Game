@@ -135,15 +135,27 @@ public class Panel extends JPanel {
 			if(game.levelEnded) {
 				g2d.setColor(Color.black);
 				int popinSize = game.getCurrentLevelId() == Game.nbLevels-1 ? 520 : 400;
-				int textXPosition = ((this.getWidth()-popinSize)/2)+50;
+				int textXPosition = ((this.getWidth()-popinSize)/2)+90;
+				
+				//We draw the rectangle
 				g2d.fillRoundRect(((this.getWidth()-popinSize)/2), (this.getHeight()/2)-100, popinSize, 200, 5, 5);
+				
+				//We draw the informations
 			    g2d.setColor(Color.red);
-			    g2d.drawString("Nombre de déplacements : " + game.getNbMoves(), textXPosition, (this.getHeight()/2-50));
-			    if(game.getCurrentLevelId() == Game.nbLevels-1) g2d.drawString("Félicitations ! Vous avez fini tous les niveaux du jeu !", textXPosition, (this.getHeight()/2-20));
-			    else {
+			    int moveInfoYPosition = (this.getHeight()/2-50);
+			    
+			    //If it's the last level we display a congratulation message. If not, we display the key for the next level
+			    if(game.getCurrentLevelId() == Game.nbLevels-1) {
+			    	g2d.drawString("Félicitations ! Vous avez fini tous les niveaux du jeu !", textXPosition-40, (this.getHeight()/2-60));
+			    	moveInfoYPosition = (this.getHeight()/2-10);
+			    } else {
 			    	g2d.setColor(Color.white);
 				    g2d.drawString("Niveau suivant (Enter)", textXPosition, (this.getHeight()/2));
 			    }
+			    
+			    g2d.setColor(Color.red);
+			    g2d.drawString("Nombre de déplacements : " + game.getNbMoves(), textXPosition, moveInfoYPosition);
+			    
 			    g2d.setColor(Color.white);
 			    g2d.drawString("Recommencer le niveau (R)", textXPosition, (this.getHeight()/2+30));
 			    g2d.drawString("Menu principal (Esc)", textXPosition, (this.getHeight()/2+60));
