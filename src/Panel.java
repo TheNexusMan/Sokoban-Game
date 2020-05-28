@@ -303,8 +303,8 @@ public class Panel extends JPanel {
 				    //Draw characters choice
 					g2d.setColor(Color.black);
 					g2d.setFont(fontTitle);
-					String charachterChoiceTitle = "Choisissez votre personnage :";
-				    g2d.drawString(charachterChoiceTitle, (int) (this.getWidth() - fontMetricsTitle.stringWidth(charachterChoiceTitle))/2, 280);
+					String characterChoiceTitle = "Choisissez votre personnage :";
+				    g2d.drawString(characterChoiceTitle, (int) (this.getWidth() - fontMetricsTitle.stringWidth(characterChoiceTitle))/2, 280);
 				    
 				    int choiceGap = 20;
 					int choiceIconSize = 75;

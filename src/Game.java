@@ -122,9 +122,8 @@ public class Game {
 	
 	//Load all levels from text file
 	private void loadAllLevels() {
-		//File file = new File("data\\levels\\levels.txt");
-		File file = new File("data\\levels\\levels-easy.txt"); //For development only
-		//File file = new File("data\\levels\\levels-fullwall.txt"); //For development only
+		File file = new File("data\\levels\\levels.txt");
+//		File file = new File("data\\levels\\levels-easy.txt"); //For development only
 		Scanner sc = null;
 		try {
 			sc = new Scanner(file);
