@@ -53,24 +53,25 @@ public class Menu {
 				maxYChoice = 5;
 				break;
 			
-			case 2: //Load level menu : player can only go to levels he has already unlocked
+			case 2: //Load level menu : player can only choose the levels he has already unlocked
 				minXChoice = 1;
-				//If the player is on a line that is not full, the maxXChoice is set to the number of levels on this line
+				//If the cursor is on a line that is not full, the maxXChoice is set to the number of levels on this line
 				if(YMenuChoice == (game.getCurrentPlayer().getNextLevelToPass()+1)/7+1 && (game.getCurrentPlayer().getNextLevelToPass()+1)%7 != 0) maxXChoice = (game.getCurrentPlayer().getNextLevelToPass()+1)%7;
 				else maxXChoice = 7;
 				
 				minYChoice = 1;
-				if((game.getCurrentPlayer().getNextLevelToPass()+1)%7 != 0) maxYChoice = (game.getCurrentPlayer().getNextLevelToPass()+1)/7+1;
+				//If the number of level unlocked is not mod 0 of 7 and if the cursor is on a x index where the column is complete, we add 1 to the calculation
+				if((game.getCurrentPlayer().getNextLevelToPass()+1)%7 != 0 && XMenuChoice <= (game.getCurrentPlayer().getNextLevelToPass()+1)%7) maxYChoice = (game.getCurrentPlayer().getNextLevelToPass()+1)/7+1;
 				else maxYChoice = (game.getCurrentPlayer().getNextLevelToPass()+1)/7;
 				break;
 				
-			case 3:
+			case 3: //Load player menu
 				minYChoice = 1;
 				if(game.getNbPlayers() < Game.nbMaxPlayers) maxYChoice = game.getNbPlayers()+1; //If the number max of player saved is not reach, maxYChoice is the number of player saved + 1
 				else maxYChoice = game.getNbPlayers(); //Else it's just the number of player saved
 				break;
 				
-			case 4:
+			case 4: //Options menu
 				minYChoice = 1;
 				maxYChoice = 2;
 				minXChoice = 1;
@@ -168,16 +169,20 @@ public class Menu {
 				}
 				break;
 				
-			case 4:
+			case 4: //Option menu
 				switch(YMenuChoice) {
 					case 1 :
-						game.getCurrentPlayer().setCharacterChoice(XMenuChoice-1);
-						game.saveGameToFile();
+						if(game.getCurrentPlayerId() != -1) {
+							game.getCurrentPlayer().setCharacterChoice(XMenuChoice-1);
+							game.saveGameToFile();
+						}
 						break;
 						
 					case 2 :
-						game.getCurrentPlayer().setSceneryChoice(XMenuChoice-1);
-						game.saveGameToFile();
+						if(game.getCurrentPlayerId() != -1) {
+							game.getCurrentPlayer().setSceneryChoice(XMenuChoice-1);
+							game.saveGameToFile();
+						}
 						break;
 				}
 				break;

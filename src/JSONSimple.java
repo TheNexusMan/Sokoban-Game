@@ -98,7 +98,7 @@ public class JSONSimple {
         		nbPlayers++;
         	}
         }
-        catch(FileNotFoundException e) {e.printStackTrace();}
+        catch(FileNotFoundException e) {System.out.println("Aucun fichier de sauvegarde trouvé.");}
         catch(IOException e){e.printStackTrace();}
         catch(ParseException e){e.printStackTrace();}
         catch(Exception e){e.printStackTrace();}
