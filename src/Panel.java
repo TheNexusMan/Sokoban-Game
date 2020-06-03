@@ -318,11 +318,10 @@ public class Panel extends JPanel {
 				    for(int i = 0; i < Game.nbCharacters; i++) {
 				    	//We draw the characters
 				    	if(game.getCurrentPlayer().getCharacterChoice() != i) g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f)); //We change the opacity to show which option is saved
-				    	else g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 						g2d.drawImage(characters[i], choiceMosaicWidthStart + (choiceGap+choiceIconSize)*i, choiceMosaicHeightStart, choiceIconSize, choiceIconSize, this);
 						
 						//We draw the square around the image
-						g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+						g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f)); //We restore the opacity
 						if(game.menu.getXMenuChoice() == i+1 && game.menu.getYMenuChoice() == 1) g2d.setColor(Color.red);
 						else g2d.setColor(Color.black);
 						g2d.drawRect(choiceMosaicWidthStart + (choiceGap+choiceIconSize)*i, choiceMosaicHeightStart, choiceIconSize, choiceIconSize);
@@ -338,11 +337,10 @@ public class Panel extends JPanel {
 				    for(int i = 0; i < Game.nbCharacters; i++) {
 				    	//We draw the sceneries
 				    	if(game.getCurrentPlayer().getSceneryChoice() != i) g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f)); //We change the opacity to show which option is saved
-				    	else g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 						g2d.drawImage(imgWalls[i], choiceMosaicWidthStart + (choiceGap+choiceIconSize)*i, choiceMosaicHeightStart, choiceIconSize, choiceIconSize, this);
 						
 						//We draw the square around the image
-						g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+						g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f)); //We restore the opacity
 						if(game.menu.getXMenuChoice() == i+1 && game.menu.getYMenuChoice() == 2) g2d.setColor(Color.red);
 						else g2d.setColor(Color.black);
 						g2d.drawRect(choiceMosaicWidthStart + (choiceGap+choiceIconSize)*i, choiceMosaicHeightStart, choiceIconSize, choiceIconSize);
