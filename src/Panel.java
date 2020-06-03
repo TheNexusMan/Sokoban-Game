@@ -168,28 +168,28 @@ public class Panel extends JPanel {
 					g2d.drawImage(imgLogo, (this.getWidth()/2)-100, 50, 200, 200, this);
 					
 					g2d.setFont(fontTitle);
+					g2d.setColor(Color.DARK_GRAY);
 					
-					if(game.getCurrentPlayerId() != -1) { //We draw these menu choices only if a player has been selected
-						g2d.setColor(Color.DARK_GRAY);
-						
-						String loadedPlayerName = "Joueur : " + game.getCurrentPlayer().getPseudo();
-					    g2d.drawString(loadedPlayerName, (int) (this.getWidth() - fontMetricsTitle.stringWidth(loadedPlayerName))/2, 320);
+					String loadedPlayerName = "Profil chargé : " + (game.getCurrentPlayerId() != -1 ? game.getCurrentPlayer().getPseudo() : "aucun");
+				    g2d.drawString(loadedPlayerName, (int) (this.getWidth() - fontMetricsTitle.stringWidth(loadedPlayerName))/2, 320);
+					
+				    if(game.menu.getYMenuChoice() == 1) g2d.setColor(Color.red);
+					else if(game.getCurrentPlayerId() != -1) g2d.setColor(Color.black);
+					else g2d.setColor(Color.LIGHT_GRAY);
+				    g2d.drawString("Reprendre", (this.getWidth()/2)-100, 400);
 
-						if(game.menu.getYMenuChoice() == 1) g2d.setColor(Color.red);
-						else g2d.setColor(Color.black);
-					    g2d.drawString("Reprendre", (this.getWidth()/2)-100, 400);
-
-					    if(game.menu.getYMenuChoice() == 2) g2d.setColor(Color.red);
-					    else g2d.setColor(Color.black);
-					    g2d.drawString("Choix du niveau", (this.getWidth()/2)-100, 450);
-					}
+				    if(game.menu.getYMenuChoice() == 2) g2d.setColor(Color.red);
+				    else if(game.getCurrentPlayerId() != -1) g2d.setColor(Color.black);
+				    else g2d.setColor(Color.LIGHT_GRAY);
+				    g2d.drawString("Choix du niveau", (this.getWidth()/2)-100, 450);
 
 				    if(game.menu.getYMenuChoice() == 3) g2d.setColor(Color.red);
 				    else g2d.setColor(Color.black);
 				    g2d.drawString("Charger joueur", (this.getWidth()/2)-100, 500);
 				    
 				    if(game.menu.getYMenuChoice() == 4) g2d.setColor(Color.red);
-				    else g2d.setColor(Color.black);
+				    else if(game.getCurrentPlayerId() != -1) g2d.setColor(Color.black);
+				    else g2d.setColor(Color.LIGHT_GRAY);
 				    g2d.drawString("Options", (this.getWidth()/2)-100, 550);
 
 				    if(game.menu.getYMenuChoice() == 5) g2d.setColor(Color.red);
@@ -316,10 +316,13 @@ public class Panel extends JPanel {
 					g2d.setStroke(new BasicStroke(2));
 					
 				    for(int i = 0; i < Game.nbCharacters; i++) {
-						
+				    	//We draw the characters
+				    	if(game.getCurrentPlayer().getCharacterChoice() != i) g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f)); //We change the opacity to show which option is saved
+				    	else g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 						g2d.drawImage(characters[i], choiceMosaicWidthStart + (choiceGap+choiceIconSize)*i, choiceMosaicHeightStart, choiceIconSize, choiceIconSize, this);
 						
 						//We draw the square around the image
+						g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 						if(game.menu.getXMenuChoice() == i+1 && game.menu.getYMenuChoice() == 1) g2d.setColor(Color.red);
 						else g2d.setColor(Color.black);
 						g2d.drawRect(choiceMosaicWidthStart + (choiceGap+choiceIconSize)*i, choiceMosaicHeightStart, choiceIconSize, choiceIconSize);
@@ -333,10 +336,13 @@ public class Panel extends JPanel {
 				    choiceMosaicHeightStart = 480;
 					
 				    for(int i = 0; i < Game.nbCharacters; i++) {
-						
+				    	//We draw the sceneries
+				    	if(game.getCurrentPlayer().getSceneryChoice() != i) g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f)); //We change the opacity to show which option is saved
+				    	else g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 						g2d.drawImage(imgWalls[i], choiceMosaicWidthStart + (choiceGap+choiceIconSize)*i, choiceMosaicHeightStart, choiceIconSize, choiceIconSize, this);
 						
 						//We draw the square around the image
+						g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 						if(game.menu.getXMenuChoice() == i+1 && game.menu.getYMenuChoice() == 2) g2d.setColor(Color.red);
 						else g2d.setColor(Color.black);
 						g2d.drawRect(choiceMosaicWidthStart + (choiceGap+choiceIconSize)*i, choiceMosaicHeightStart, choiceIconSize, choiceIconSize);

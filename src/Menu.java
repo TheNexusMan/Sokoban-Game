@@ -86,7 +86,9 @@ public class Menu {
 					game.creatingPlayer = false;
 				}
 				if(YMenuChoice == minYChoice) YMenuChoice = maxYChoice; //If we reach the top of a row, we go to the end
-				else YMenuChoice -= 1;
+				else if (game.getCurrentPlayerId() == -1 && currentMenuId == 1 && YMenuChoice == 5){ //For passing option menu if no player is loaded
+					YMenuChoice -= 2;
+				}else YMenuChoice -= 1;
 				break;
 				
 			case "down":
@@ -95,7 +97,9 @@ public class Menu {
 					game.creatingPlayer = false;
 				}
 				if(YMenuChoice == maxYChoice) YMenuChoice = minYChoice; //If we reach the bottom of a row, we go back to the top
-				else YMenuChoice += 1;
+				else if (game.getCurrentPlayerId() == -1 && currentMenuId == 1 && YMenuChoice == 3){ //For passing option menu if no player is loaded
+					YMenuChoice += 2;
+				}else YMenuChoice += 1;
 				break;
 			
 			case "left":
